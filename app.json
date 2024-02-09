@@ -22,7 +22,9 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      }, 
+      "package": "com.gesApp", 
+      "versionCode": 1
     },
     "web": {
       "bundler": "metro",
