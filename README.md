@@ -27,3 +27,9 @@ Redux can be used with React Native through the react-redux library.
 It allows you to create observables that automatically track and update state changes. 
 MobX offers a more intuitive programming model compared to Redux, as it eliminates the need for explicit actions and reducers. 
 MobX works well with React Native and can be integrated using the mobx-react library.
+
+## Routing and navigation
+1. React Navigation: React Navigation is a widely-used navigation library for React Native that offers a comprehensive set of navigation patterns and customizable navigators.
+It provides stack navigation, tab navigation, drawer navigation, and more. React Navigation is highly flexible, easy to configure, and supports both iOS and Android platforms.
+2. React Native Navigation: React Native Navigation is a native navigation library that uses platform-specific navigation APIs,
+providing a seamless and performant navigation experience. It offers smooth transitions and deep linking capabilities. React Native Navigation is well-suited for complex apps with demanding navigation requirements.
