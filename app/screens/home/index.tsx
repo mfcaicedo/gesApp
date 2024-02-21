@@ -1,7 +1,7 @@
 import {
     GluestackUIProvider, Text, Box, Center, Button, ButtonText, ButtonIcon, AddIcon
 } from '@gluestack-ui/themed';
-import { config } from '@gluestack-ui/config'; // Optional if you want to use default theme
+import { config } from "../../../config/gluestack-ui.config"
 
 const Index = () => {
     return (
@@ -13,7 +13,7 @@ const Index = () => {
                     <Text>
                         Ahora desde aquí prodrá gestionar su comunidad!
                     </Text>
-                    <Button size="md" variant="solid" action="primary" isDisabled={false} isFocusVisible={false} >
+                    <Button size="md" variant="solid" bgColor='$primary500' action="primary" isDisabled={false} isFocusVisible={false} >
                         <ButtonText>Continuar</ButtonText>
                     </Button>
                 </Box>
