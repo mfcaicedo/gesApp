@@ -1712,10 +1712,10 @@
     "@react-native-aria/utils" "^0.2.10"
     "@react-stately/checkbox" "^3.4.2"
 
-"@gluestack-ui/config@^1.1.2":
-  version "1.1.2"
-  resolved "https://registry.npmjs.org/@gluestack-ui/config/-/config-1.1.2.tgz"
-  integrity sha512-r0gp34udSqSH9Z5AWYR6Qdk/ZpyGkOLtjPMEpkhDPMLYeYv4+bNkLQSZa/zw9C0rn4hwgv4bKhbUWBG8IlnnqQ==
+"@gluestack-ui/config@^1.1.5":
+  version "1.1.5"
+  resolved "https://registry.npmjs.org/@gluestack-ui/config/-/config-1.1.5.tgz"
+  integrity sha512-/ZJ0LK2rhbNLuFQELIEwnoIe3by80wIsIlxcJdfFfB0gAoTNCTq8b2EizRgrZWmoIJcFhj/KtI2ZtnqJp2jBqw==
 
 "@gluestack-ui/divider@0.1.8":
   version "0.1.8"
