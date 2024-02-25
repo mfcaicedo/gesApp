@@ -1,10 +1,13 @@
-import { GluestackUIProvider, Text, Box, Center } from '@gluestack-ui/themed';
-import { config } from '@gluestack-ui/config'; // Optional if you want to use default theme
+import * as React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
 import Index from './screens/home';
+import NavigationApp from './navigation/NavigationApp';
+// import NavigationApp from './navigation/NavigationApp';
+
 
 const IndexApp = () => {
   return (
-    <Index />
+    <NavigationApp />
   );
 }
 export default IndexApp;
