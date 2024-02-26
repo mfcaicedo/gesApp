@@ -4,7 +4,7 @@ import {
 import { config } from "../../../config/gluestack-ui.config";
 const logoGesApp = require('../../../assets/images/logo-grande.jpg');
 
-const Index = () => {
+const Index = ({ navigation }: { navigation: any }) => {
     return (
         <GluestackUIProvider config={config} >
             <Box justifyContent="center" h="100%">
@@ -20,7 +20,10 @@ const Index = () => {
                         <Text bold size="xl">
                             Ahora desde aquí prodrá gestionar su comunidad!
                         </Text>
-                        <Button size="md" mt="$20" variant="solid" bgColor='$primary500' action="primary" isDisabled={false} isFocusVisible={false} >
+                        <Button onPress={() => {
+                            navigation.navigate('Login')
+                        }}
+                            size="md" mt="$20" variant="solid" bgColor='$primary500' action="primary" isDisabled={false} isFocusVisible={false} >
                             <ButtonText>Continuar</ButtonText>
                         </Button>
                     </Box>
