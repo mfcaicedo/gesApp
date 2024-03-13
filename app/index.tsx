@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import Index from './screens/home';
+import Index from './screens/home/Index';
 import NavigationApp from './navigation/NavigationApp';
 // import NavigationApp from './navigation/NavigationApp';
 

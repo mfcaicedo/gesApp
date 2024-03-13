@@ -44,23 +44,12 @@ const Login = ({ navigation }: { navigation: any }) => {
                         isInvalid={false}
                         isReadOnly={false}
                         isRequired={true}
-                        // borderColor='$primary500'
                     >
-                        {/* <FormControlLabel mb="$1">
-                                {/* <FormControlLabelText>Usuario o Correo</FormControlLabelText> */}
-                        {/* </FormControlLabel>  */}
-                        <Input variant='underlined'>
+                        <Input variant='underlined' isFocused={true} >
                             <InputField type="text" defaultValue="" placeholder="Usuario o correo" />
                         </Input>
-                        {/* <FormControlHelper>
-                                <FormControlHelperText>
-                                    Must be at least 6 characters.
-                                </FormControlHelperText>
-                            </FormControlHelper> */}
                         <FormControlError>
                             <FormControlErrorIcon as={AlertCircleIcon} />
-                            {/* <FormControlErrorText> */}
-                            {/* </FormControlErrorText> */}
                         </FormControlError>
                     </FormControl>
                     <FormControl
@@ -70,17 +59,9 @@ const Login = ({ navigation }: { navigation: any }) => {
                         isReadOnly={false}
                         isRequired={true}
                     >
-                        {/* <FormControlLabel mb="$1">
-                                <FormControlLabelText>Contraseña</FormControlLabelText>
-                            </FormControlLabel> */}
-                        <Input variant='underlined'>
+                        <Input variant='underlined' isFocused={true} >
                             <InputField type="password" defaultValue="" placeholder="Contraseña" />
                         </Input>
-                        {/* <FormControlHelper>
-                                <FormControlHelperText>
-                                    Must be at least 6 characters.
-                                </FormControlHelperText>
-                            </FormControlHelper> */}
                         <FormControlError>
                             <FormControlErrorIcon as={AlertCircleIcon} />
                             <FormControlErrorText>
@@ -89,7 +70,7 @@ const Login = ({ navigation }: { navigation: any }) => {
                         </FormControlError>
                     </FormControl>
                     <Button onPress={() => {
-                        navigation.navigate('Welcome')
+                        navigation.navigate('CreateAccount')
                     }}
                         size="md" mt="$2" variant="solid" bgColor='$primary500' action="primary" isDisabled={false} isFocusVisible={false} >
                         <ButtonText>Iniciar sesión</ButtonText>
