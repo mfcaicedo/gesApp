@@ -1,0 +1,1 @@
+export const DURATION_TOAST_SUCCESS = 3000

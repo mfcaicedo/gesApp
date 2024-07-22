@@ -1,27 +1,23 @@
 import {
-    Text,
     Box,
-    Center,
     Button,
     ButtonText,
     Image,
     Heading,
     FormControl,
-    FormControlLabel,
-    FormControlLabelText,
     Input,
     InputField,
-    FormControlHelper,
-    FormControlHelperText,
     FormControlError,
     FormControlErrorIcon,
     FormControlErrorText,
     AlertCircleIcon,
-    set
+    useToast,
 } from '@gluestack-ui/themed';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { FIREBASE_AUTH } from '../../utils/constants/firebase';
 import React, { useEffect, useState } from 'react';
+import { DURATION_TOAST_SUCCESS } from '../../utils/constants/constants';
+import ReusableToast from '../../utils/components/ReusableToast';
 const logoGesApp = require('../../../assets/images/logo-small.png');
 
 const Login = ({ navigation }: { navigation: any }) => {
@@ -32,16 +28,43 @@ const Login = ({ navigation }: { navigation: any }) => {
     const [errorEmail, setErrorEmail] = useState<boolean>(false);
     const [errorPassword, setErrorPassword] = useState<boolean>(false);
 
+    const toast = useToast();
+
     const handleLogin = async () => {
         try {
+
             const user = await signInWithEmailAndPassword(FIREBASE_AUTH, email, password);
+            showToast();
+            navigation.navigate('Home');
+
         } catch (error) {
 
             setErrorEmail(true);
             setErrorPassword(true);
+
         }
 
     };
+
+    const showToast = () => {
+        const newId = Math.random()
+        toast.show({
+            id: newId,
+            placement: "top",
+            duration: DURATION_TOAST_SUCCESS,
+            render: ({ id }) => {
+                return (
+                    <ReusableToast
+                        id={id}
+                        action="success"
+                        variant="accent"
+                        title="Bienvenido!"
+                        description="Inicio de sesión exitoso"
+                    />
+                )
+            },
+        })
+    }
 
     return (
         <Box justifyContent="flex-start" w="$full" alignItems='center' alignContent='center' h="100%">
