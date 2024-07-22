@@ -16,15 +16,37 @@ import {
     FormControlError,
     FormControlErrorIcon,
     FormControlErrorText,
-    AlertCircleIcon
+    AlertCircleIcon,
+    set
 } from '@gluestack-ui/themed';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { FIREBASE_AUTH } from '../../utils/constants/firebase';
+import React, { useEffect, useState } from 'react';
 const logoGesApp = require('../../../assets/images/logo-small.png');
 
 const Login = ({ navigation }: { navigation: any }) => {
+
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+
+    const [errorEmail, setErrorEmail] = useState<boolean>(false);
+    const [errorPassword, setErrorPassword] = useState<boolean>(false);
+
+    const handleLogin = async () => {
+        try {
+            const user = await signInWithEmailAndPassword(FIREBASE_AUTH, email, password);
+        } catch (error) {
+
+            setErrorEmail(true);
+            setErrorPassword(true);
+        }
+
+    };
+
     return (
         <Box justifyContent="flex-start" w="$full" alignItems='center' alignContent='center' h="100%">
             <Image
-                size="xl" borderRadius="$sm"
+                size="xl" $xs-borderRadius="$sm"
                 source={logoGesApp}
                 alt="GesApp"
                 my="$10"
@@ -43,7 +65,14 @@ const Login = ({ navigation }: { navigation: any }) => {
                     isRequired={true}
                 >
                     <Input variant='underlined' >
-                        <InputField type="text" defaultValue="" placeholder="Usuario o correo" />
+                        <InputField type="text"
+                            defaultValue=""
+                            value={email}
+                            onChangeText={(text) => setEmail(text)}
+                            placeholder="Usuario o correo"
+                            autoCapitalize='none'
+                            keyboardType='email-address'
+                        />
                     </Input>
                     <FormControlError>
                         <FormControlErrorIcon as={AlertCircleIcon} />
@@ -52,12 +81,19 @@ const Login = ({ navigation }: { navigation: any }) => {
                 <FormControl
                     size="lg"
                     isDisabled={false}
-                    isInvalid={false}
+                    isInvalid={errorPassword || errorEmail ? true : false}
                     isReadOnly={false}
                     isRequired={true}
                 >
                     <Input variant='underlined' >
-                        <InputField type="password" defaultValue="" placeholder="Contraseña" />
+                        <InputField type="password"
+                            defaultValue=""
+                            value={password}
+                            onChangeText={(text) => setPassword(text)}
+                            placeholder="Contraseña"
+                            autoCapitalize='none'
+                            secureTextEntry={true}
+                        />
                     </Input>
                     <FormControlError>
                         <FormControlErrorIcon as={AlertCircleIcon} />
@@ -67,7 +103,7 @@ const Login = ({ navigation }: { navigation: any }) => {
                     </FormControlError>
                 </FormControl>
                 <Button onPress={() => {
-                    navigation.navigate('CreateAccount')
+                    handleLogin();
                 }}
                     size="md" mt="$2" variant="solid" bgColor='$primary500' action="primary" isDisabled={false} isFocusVisible={false} >
                     <ButtonText>Iniciar sesión</ButtonText>
