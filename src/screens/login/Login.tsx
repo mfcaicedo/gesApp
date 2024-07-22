@@ -18,7 +18,7 @@ import {
     FormControlErrorText,
     AlertCircleIcon
 } from '@gluestack-ui/themed';
-const logoGesApp = require('../../../assets/images/logo-mini.jpg');
+const logoGesApp = require('../../../assets/images/logo-small.png');
 
 const Login = ({ navigation }: { navigation: any }) => {
     return (

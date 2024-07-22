@@ -31,7 +31,7 @@ import {
     SelectItem,
     Icon
 } from '@gluestack-ui/themed';
-const logoGesApp = require('../../../assets/images/logo-mini.jpg');
+const logoGesApp = require('../../../assets/images/logo-small.png');
 
 const CreateAccount = ({ navigation }: { navigation: any }) => {
     return (
