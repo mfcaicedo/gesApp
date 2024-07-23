@@ -1,4 +1,4 @@
-import { config } from '@gluestack-ui/config';
+import React from 'react';
 import {
     Text, Box, Center, Button, ButtonText, Image, Heading, GluestackUIProvider
 } from '@gluestack-ui/themed';

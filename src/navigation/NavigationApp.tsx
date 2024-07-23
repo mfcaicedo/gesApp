@@ -53,11 +53,11 @@ const NavigationApp = () => {
                     component={Index}
                     options={
                         { 
-                            title: 'Compras', 
+                            title: 'Eventos', 
                             headerBackVisible: false,
                             headerLeft: (props) => <CustomHeaderMenu navigation={Stack.Navigator}  />,
                             headerStyle: {
-                                backgroundColor: '#00293F',
+                                backgroundColor: '#0077E6',
                             },
                             headerTintColor: '#ffffff',
                     }

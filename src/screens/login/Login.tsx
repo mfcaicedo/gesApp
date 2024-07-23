@@ -126,7 +126,8 @@ const Login = ({ navigation }: { navigation: any }) => {
                     </FormControlError>
                 </FormControl>
                 <Button onPress={() => {
-                    handleLogin();
+                    // handleLogin();
+                    navigation.navigate('Home');
                 }}
                     size="md" mt="$2" variant="solid" bgColor='$primary500' action="primary" isDisabled={false} isFocusVisible={false} >
                     <ButtonText>Iniciar sesión</ButtonText>

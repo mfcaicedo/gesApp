@@ -1,19 +1,13 @@
+import React from 'react';
 import {
-    GluestackUIProvider,
-    Text,
     Box,
-    Center,
     Button,
     ButtonText,
     Image,
     Heading,
     FormControl,
-    FormControlLabel,
-    FormControlLabelText,
     Input,
     InputField,
-    FormControlHelper,
-    FormControlHelperText,
     FormControlError,
     FormControlErrorIcon,
     FormControlErrorText,
@@ -37,7 +31,7 @@ const CreateAccount = ({ navigation }: { navigation: any }) => {
     return (
         <Box justifyContent="flex-start" w="$full" alignItems='center' alignContent='center' h="100%">
             <Image
-                size="xl" borderRadius="$sm"
+                size="xl" $xs-borderRadius="$sm"
                 source={logoGesApp}
                 alt="GesApp"
                 my="$0"
