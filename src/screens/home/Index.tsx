@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import {
     GluestackUIProvider, Text, Box, Card, Center, Button, ButtonText, Image, Heading, FormControl, Input, InputField,
-    FormControlError, FormControlErrorIcon, FormControlErrorText, AlertCircleIcon, useToast, SearchIcon, Icon, ButtonIcon, AddIcon
+    FormControlError, FormControlErrorIcon, FormControlErrorText, AlertCircleIcon, useToast, SearchIcon, Icon, ButtonIcon,
+    AddIcon, HStack, CalendarDaysIcon, ClockIcon, BellIcon
 } from '@gluestack-ui/themed';
+import { Users } from 'lucide-react-native';
 import { TouchableOpacity } from 'react-native';
 const logoGesApp = require('../../../assets/images/logo-grande.jpg');
 
@@ -22,22 +24,37 @@ const Index = ({ navigation }: { navigation: any }) => {
                     Tus eventos
                 </Text>
                 <TouchableOpacity onPress={handlePressEvent}>
-                    <Card size="lg" justifyContent='center' alignItems='center' flexDirection='row' mt='$1'
-                        w='$full' variant="elevated">
-                        <Box flex={1} alignItems="center">
-                            {/* <Image
-                                size="2xl" $xs-borderRadius="$sm"
-                                source={iconoFiet}
-                                alt="icono Fiet"
-                                resizeMode='contain'
-                                w='$20'
-                                h='$20'
-                            /> */}
-                        </Box>
-                        <Box flex={2}>
-                            <Heading size="md">
+                    <Card size="lg" justifyContent='flex-start' flexDirection='row' mt='$1'
+                        w='$full' variant="elevated" bgColor='$primary500'>
+                        <Box gap='$2' w='$full'>
+                            <Heading size="md" color='$white'>
                                 Reunión JAC
                             </Heading>
+                            <Text color='$white'>Reunión de caracter obligatorio</Text>
+                            <Box justifyContent='space-between' flexDirection='row'>
+                                <HStack gap='$1'>
+                                    <Icon as={CalendarDaysIcon} size="md" color='$white' />
+                                    <Text color='$white'>01 - Oct - 2024</Text>
+                                </HStack>
+                                <HStack gap='$1'>
+                                    <Icon as={ClockIcon} size="md" color='$white' />
+                                    <Text color='$white'>02:00 PM - 04:00 PM </Text>
+                                </HStack>
+                            </Box>
+                            <Box justifyContent='space-between' flexDirection='row'>
+                                <HStack gap='$1'>
+                                    <Icon as={BellIcon} size="md" color='$white' />
+                                    <Text color='$white'>10 minutos antes</Text>
+                                </HStack>
+                                <HStack gap='$1'>
+                                    <Text color='$white'>Evento: </Text>
+                                    <Text color='$white' bold>Reunion </Text>
+                                </HStack>
+                            </Box>
+                            <HStack gap='$1'>
+                                <Icon color='$white' as={Users} />
+                                <Text color='$white'>40 invitados </Text>
+                            </HStack>
                         </Box>
                     </Card>
                 </TouchableOpacity>
