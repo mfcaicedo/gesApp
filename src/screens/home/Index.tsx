@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-    GluestackUIProvider, Text, Box, Card, Center, Button, ButtonText, Image, Heading, FormControl, Input, InputField,
+    Text, Box, Card, Center, Button, ButtonText, Image, Heading, FormControl, Input, InputField,
     FormControlError, FormControlErrorIcon, FormControlErrorText, AlertCircleIcon, useToast, SearchIcon, Icon, ButtonIcon,
     AddIcon, HStack, CalendarDaysIcon, ClockIcon, BellIcon
 } from '@gluestack-ui/themed';
@@ -12,6 +12,7 @@ const Index = ({ navigation }: { navigation: any }) => {
 
     const handlePressEvent = () => {
         console.log('press event');
+        navigation.openDrawer();
     }
 
     return (

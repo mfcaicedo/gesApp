@@ -1,32 +1,47 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import Welcome from '../screens/welcome/Welcome';
-import { Button, ButtonIcon, ButtonText, GluestackUIProvider, MenuIcon, useTheme } from '@gluestack-ui/themed';
-import { config } from '@gluestack-ui/config';
+import { Button, ButtonIcon, ButtonText, GluestackUIProvider, MenuIcon, Text, useTheme } from '@gluestack-ui/themed';
 import Login from '../screens/login/Login';
 import Index from '../screens/home/Index';
 import CreateAccount from '../screens/login/CreateAccount';
+import { Box } from 'lucide-react-native';
 
 const Stack = createNativeStackNavigator();
+const Drawer = createDrawerNavigator();
 
 const NavigationApp = () => {
 
+    const HomeScreenWithDrawer = () => {
+        return (
+            <Drawer.Navigator initialRouteName='Home'
+                // drawerContent={(props) => <CustomDrawerContent {...props} />}
+                drawerContent={() => (
+                    <Box>
+                        <Text>Hello</Text>
+                    </Box>
+                )}
+            >
+                <Drawer.Screen name="Home" component={Index} />
+            </Drawer.Navigator>
+        );
+    }
+
     const CustomHeaderMenu = ({ navigation }: { navigation: any }) => {
         return (
-            <GluestackUIProvider config={config} >
-                <Button
-                    pr='$8'
-                    size="xl"
-                    variant="link"
-                    action="primary"
-                    isDisabled={false}
-                    isFocusVisible={false}
-                    onPress={() => console.log('menu')}
-                >
-                    <ButtonIcon color='$white' as={MenuIcon} />
-                </Button>
-            </GluestackUIProvider>
+            <Button
+                pr='$8'
+                size="xl"
+                variant="link"
+                action="primary"
+                isDisabled={false}
+                isFocusVisible={false}
+                onPress={() => console.log('menu pressed')}
+            >
+                <ButtonIcon color='$white' as={MenuIcon} />
+            </Button>
         );
     };
 
@@ -50,18 +65,18 @@ const NavigationApp = () => {
                 />
                 <Stack.Screen
                     name="Home"
-                    component={Index}
-                    options={
-                        { 
-                            title: 'Eventos', 
-                            headerBackVisible: false,
-                            headerLeft: (props) => <CustomHeaderMenu navigation={Stack.Navigator}  />,
-                            headerStyle: {
-                                backgroundColor: '#0077E6',
-                            },
-                            headerTintColor: '#ffffff',
-                    }
-                    }
+                    component={HomeScreenWithDrawer}
+                // options={
+                //     {
+                //         title: 'Eventos',
+                //         headerBackVisible: false,
+                //         headerLeft: (props) => <CustomHeaderMenu navigation={Stack.Navigator} />,
+                //         headerStyle: {
+                //             backgroundColor: '#0077E6',
+                //         },
+                //         headerTintColor: '#ffffff',
+                //     }
+                // }
                 />
 
             </Stack.Navigator>
