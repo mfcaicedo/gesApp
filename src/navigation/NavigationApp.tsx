@@ -25,100 +25,129 @@ const NavigationApp = () => {
     const HomeScreenWithDrawer = () => {
         return (
             <Drawer.Navigator
-                drawerContent={props => (
-                    <DrawerContentScrollView {...props}>
-                        <Box justifyContent="flex-start" mt='$10' mb='$10' alignItems='center' >
-                            <HStack gap='$2' alignItems='center'>
-                                <Icon as={CircleUser} size='xl' />
-                                <VStack>
-                                    <Heading>Milthon Caicedo</Heading>
-                                    <Text>miltoncaicedo23@gmail.com</Text>
-                                </VStack>
-                            </HStack>
-                        </Box>
-                        <DrawerItem
-                            label={Screens.Home}
-                            onPress={() => {
-                                props.navigation.navigate(Screens.Home);
-                            }}
-                            icon={() => (
-                                <Icon as={House} size='md' />
-                            )}
-                        >
-                        </DrawerItem>
-                        <DrawerItem
-                            label={Screens.Users}
-                            onPress={() => {
-                                props.navigation.navigate(Screens.Users);
-                            }}
-                            icon={() => (
-                                <Icon as={Users} size='md' />
-                            )}
-                        >
-                        </DrawerItem>
-                        <DrawerItem
-                            label={Screens.Families}
-                            onPress={() => {
-                                props.navigation.navigate(Screens.Families);
-                            }}
-                            icon={() => (
-                                <Icon as={UsersRound} size='md' />
-                            )}
-                        >
-                        </DrawerItem>
-                        <DrawerItem
-                            label='Crear evento'
-                            onPress={() => {
-                                props.navigation.navigate(Screens.CreateEvent);
-                            }}
-                            icon={() => (
-                                <Icon as={CalendarDaysIcon} size='md' />
-                            )}
-                        >
-                        </DrawerItem>
-                        <DrawerItem
-                            label='Libro de socios'
-                            onPress={() => {
-                                props.navigation.navigate(Screens.MembershipBook);
-                            }}
-                            icon={() => (
-                                <Icon as={NotebookPen} size='md' />
-                            )}
-                        >
-                        </DrawerItem>
-                        <DrawerItem
-                            label='Ajuste de cuentas'
-                            onPress={() => {
-                                props.navigation.navigate(Screens.Reckoning);
-                            }}
-                            icon={() => (
-                                <Icon as={CircleDollarSign} size='md' />
-                            )}
-                        >
-                        </DrawerItem>
-                        <DrawerItem
-                            label='Mi perfil'
-                            onPress={() => {
-                                props.navigation.navigate(Screens.Profile);
-                            }}
-                            icon={() => (
-                                <Icon as={CircleUser} size='md' />
-                            )}
-                        >
-                        </DrawerItem>
-                        <Divider />
-                        <DrawerItem
-                            label={Screens.Admin}
-                            onPress={() => {
-                                props.navigation.navigate(Screens.Admin);
-                            }}
-                            icon={() => (
-                                <Icon as={SettingsIcon} size='md' />
-                            )}
-                        >
-                        </DrawerItem>
-                    </DrawerContentScrollView>
-                )}>
+                drawerContent={props => {
+                    const { routeNames, index } = props.state;
+                    const focused = routeNames[index];
+                    return (
+                        <DrawerContentScrollView {...props}>
+                            <Box justifyContent="flex-start" mt='$10' mb='$10' alignItems='center' >
+                                <HStack gap='$2' alignItems='center'>
+                                    <Icon as={CircleUser} size='xl' />
+                                    <VStack>
+                                        <Heading>Milthon Caicedo</Heading>
+                                        <Text>miltoncaicedo23@gmail.com</Text>
+                                    </VStack>
+                                </HStack>
+                            </Box>
+                            <DrawerItem
+                                label={Screens.Home}
+                                onPress={() => {
+                                    props.navigation.navigate(Screens.Home);
+                                    props.navigation.closeDrawer();
+                                }}
+                                icon={() => (
+                                    <Icon as={House} size='md' />
+                                )}
+                                focused={focused === Screens.Events}
+                                activeBackgroundColor='$primary500'
+                            >
+                            </DrawerItem>
+                            <DrawerItem
+                                label={Screens.Users}
+                                onPress={() => {
+                                    props.navigation.navigate(Screens.Users);
+                                    props.navigation.closeDrawer();
+                                }}
+                                icon={() => (
+                                    <Icon as={Users} size='md' />
+                                )}
+                                focused={focused === Screens.Users}
+                                activeBackgroundColor='$primary500'
+                            >
+                            </DrawerItem>
+                            <DrawerItem
+                                label={Screens.Families}
+                                onPress={() => {
+                                    props.navigation.navigate(Screens.Families);
+                                    props.navigation.closeDrawer();
+                                }}
+                                icon={() => (
+                                    <Icon as={UsersRound} size='md' />
+                                )}
+                                focused={focused === Screens.Families}
+                                activeBackgroundColor='$primary500'
+                            >
+                            </DrawerItem>
+                            <DrawerItem
+                                label='Crear evento'
+                                onPress={() => {
+                                    props.navigation.navigate(Screens.CreateEvent);
+                                    props.navigation.closeDrawer();
+                                }}
+                                icon={() => (
+                                    <Icon as={CalendarDaysIcon} size='md' />
+                                )}
+                                focused={focused === Screens.CreateEvent}
+                                activeBackgroundColor='$primary500'
+                            >
+                            </DrawerItem>
+                            <DrawerItem
+                                label='Libro de socios'
+                                onPress={() => {
+                                    props.navigation.navigate(Screens.MembershipBook);
+                                    props.navigation.closeDrawer();
+                                }}
+                                icon={() => (
+                                    <Icon as={NotebookPen} size='md' />
+                                )}
+                                focused={focused === Screens.MembershipBook}
+                                activeBackgroundColor='$primary500'
+                            >
+                            </DrawerItem>
+                            <DrawerItem
+                                label='Ajuste de cuentas'
+                                onPress={() => {
+                                    props.navigation.navigate(Screens.Reckoning);
+                                    props.navigation.closeDrawer();
+                                }}
+                                icon={() => (
+                                    <Icon as={CircleDollarSign} size='md' />
+                                )}
+                                focused={focused === Screens.Reckoning}
+                                activeBackgroundColor='$primary500'
+                            >
+                            </DrawerItem>
+                            <DrawerItem
+                                label='Mi perfil'
+                                onPress={() => {
+                                    props.navigation.navigate(Screens.Profile);
+                                    props.navigation.closeDrawer();
+                                }}
+                                icon={() => (
+                                    <Icon as={CircleUser} size='md' />
+                                )}
+                                focused={focused === Screens.Profile}
+                                activeBackgroundColor='$primary500'
+                            >
+                            </DrawerItem>
+                            <Divider />
+                            <DrawerItem
+                                label={Screens.Admin}
+                                onPress={() => {
+                                    props.navigation.navigate(Screens.Admin);
+                                    props.navigation.closeDrawer();
+                                }}
+                                icon={() => (
+                                    <Icon as={SettingsIcon} size='md' />
+                                )}
+                                focused={focused === Screens.Admin}
+                                activeBackgroundColor='$primary500'
+                            >
+                            </DrawerItem>
+                        </DrawerContentScrollView>
+                    )
+                }
+                }>
                 <Drawer.Screen name='Eventos' component={Index} />
                 <Drawer.Screen name={Screens.Admin} component={Admin} />
             </Drawer.Navigator>
