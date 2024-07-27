@@ -1,7 +1,7 @@
 import { Text } from "@gluestack-ui/themed";
 import React from "react";
 
-const Membership = ({ navigation }: { navigation: any }) => {
+const MembershipBook = ({ navigation }: { navigation: any }) => {
 
     return (
         <Text>
@@ -11,5 +11,5 @@ const Membership = ({ navigation }: { navigation: any }) => {
 
 }
 
-export default Membership;
+export default MembershipBook;
 
