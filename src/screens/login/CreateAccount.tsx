@@ -25,6 +25,7 @@ import {
     SelectItem,
     Icon
 } from '@gluestack-ui/themed';
+import { Screens } from '../../enums/navigation/screens.enum';
 const logoGesApp = require('../../../assets/images/logo-small.png');
 
 const CreateAccount = ({ navigation }: { navigation: any }) => {
@@ -164,7 +165,7 @@ const CreateAccount = ({ navigation }: { navigation: any }) => {
                 </Select>
 
                 <Button onPress={() => {
-                    navigation.navigate('Welcome')
+                    navigation.navigate(Screens.Home);
                 }}
                     size="md" mt="$2" variant="solid" bgColor='$primary500' action="primary" isDisabled={false} isFocusVisible={false} >
                     <ButtonText>Crear cuenta</ButtonText>

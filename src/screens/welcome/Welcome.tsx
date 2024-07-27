@@ -2,6 +2,7 @@ import React from 'react';
 import {
     Text, Box, Center, Button, ButtonText, Image, Heading, GluestackUIProvider
 } from '@gluestack-ui/themed';
+import { Screens } from '../../enums/navigation/screens.enum';
 const logoGesApp = require('../../../assets/images/logo-big.png');
 
 const Welcome = ({ navigation }: { navigation: any }) => {
@@ -23,7 +24,7 @@ const Welcome = ({ navigation }: { navigation: any }) => {
                 </Box>
             </Center>
             <Button onPress={() => {
-                navigation.navigate('Login')
+                navigation.navigate(Screens.Login)
             }}
                 size="lg" mx="$2" mb="$10" variant="solid" bgColor='$primary500' action="primary" isDisabled={false} isFocusVisible={false} >
                 <ButtonText>Continuar</ButtonText>

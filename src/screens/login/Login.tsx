@@ -18,6 +18,7 @@ import { FIREBASE_AUTH } from '../../utils/constants/firebase';
 import React, { useEffect, useState } from 'react';
 import { DURATION_TOAST_SUCCESS } from '../../utils/constants/constants';
 import ReusableToast from '../../utils/components/ReusableToast';
+import { Screens } from '../../enums/navigation/screens.enum';
 const logoGesApp = require('../../../assets/images/logo-small.png');
 
 const Login = ({ navigation }: { navigation: any }) => {
@@ -127,7 +128,7 @@ const Login = ({ navigation }: { navigation: any }) => {
                 </FormControl>
                 <Button onPress={() => {
                     // handleLogin();
-                    navigation.navigate('Home');
+                    navigation.navigate(Screens.Home);
                 }}
                     size="md" mt="$2" variant="solid" bgColor='$primary500' action="primary" isDisabled={false} isFocusVisible={false} >
                     <ButtonText>Iniciar sesión</ButtonText>
