@@ -16,6 +16,7 @@ import MembershipBook from '../screens/membership-book/Membership';
 import Profile from '../screens/profile/Profile';
 import UserManagement from '../screens/user-management/UserManagement';
 import { CircleDollarSign, CircleUser, House, NotebookPen, User, Users, UsersRound } from 'lucide-react-native';
+import CreateUser from '../screens/user-management/CreateUser';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -206,6 +207,11 @@ const NavigationApp = () => {
                     name={Screens.Users}
                     component={UserManagement}
                     options={{ title: 'Gestión de usuarios', headerShown: true }}
+                />
+                <Stack.Screen
+                    name={Screens.CreateUser}
+                    component={CreateUser}
+                    options={{ title: 'Crear usuario', headerShown: true }}
                 />
 
             </Stack.Navigator>

@@ -4,6 +4,7 @@ import {
     AvatarBadge, AddIcon, Button, ButtonIcon
 } from "@gluestack-ui/themed";
 import { ScrollView } from "react-native";
+import { Screens } from "../../enums/navigation/screens.enum";
 
 const UserManagement = ({ navigation }: { navigation: any }) => {
 
@@ -30,7 +31,7 @@ const UserManagement = ({ navigation }: { navigation: any }) => {
                     action="primary"
                     isDisabled={false}
                     isFocusVisible={false}
-                    onPress={() => console.log('add event')}
+                    onPress={() => navigation.navigate(Screens.CreateUser)}
                 >
                     <ButtonIcon color='$white' as={AddIcon} size='lg' />
                 </Button>
@@ -53,7 +54,7 @@ const UserManagement = ({ navigation }: { navigation: any }) => {
 
 }
 
-const CardUser = ({ key, user, onDelete, onEdit, onView }: { key: any, user: any, onDelete: any, onEdit: any, onView: any }) => {
+const CardUser = ({ user, onDelete, onEdit, onView }: { user: any, onDelete: any, onEdit: any, onView: any }) => {
     return (
         <Card size="lg" justifyContent='flex-start' flexDirection='row' mt='$1'
             w='$full' variant="elevated" >

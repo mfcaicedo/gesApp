@@ -10,6 +10,7 @@ export enum Screens {
     MembershipBook = 'LibroDeSocios', 
     Reckoning  = 'AjusteDeCuentas', 
     Profile = 'MiPerfil', 
-    Admin = 'Admin'
+    Admin = 'Admin',
+    CreateUser = 'CrearUsuario'
 
 }
