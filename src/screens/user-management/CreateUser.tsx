@@ -44,7 +44,7 @@ const CreateUser = ({ navigation }: { navigation: any }) => {
         address: Yup.string().min(3, 'La dirección debe tener al menos 3 caracteres'),
     });
 
-    const { values, isSubmitting, setFieldValue, errors, touched, handleSubmit } = useFormik({
+    const { values, isSubmitting, setFieldValue, errors, touched, handleSubmit, handleChange, handleBlur, setFieldTouched } = useFormik({
         initialValues: {
             name: '',
             lastName: '',
@@ -67,24 +67,29 @@ const CreateUser = ({ navigation }: { navigation: any }) => {
         <Box justifyContent='center' alignContent='center' gap='$7' m='$2'>
             <Text>
                 Completa los siguientes campos para crear el usuario
-                {JSON.stringify(errors)}
+                {touched.name && (
+                    <Text>
+                        {errors.name}
+                    </Text>
+                )}
             </Text>
             <FormControl
                 size="lg"
                 minWidth="$80"
                 maxHeight="$96"
                 isDisabled={false}
-                isInvalid={errors.name !== '' ? true : false}
+                isInvalid={touched.name && !!errors.name}
                 isReadOnly={false}
                 isRequired={true}
             >
                 <Input variant='underlined'
                 >
                     <InputField type="text" value={values.name}
-                        onChangeText={(text) => setFieldValue('name', text)}
+                        onChangeText={handleChange('name')}
+                        onBlur={handleBlur('name')}
                         defaultValue="" placeholder="Nombres" />
                 </Input>
-                {errors.name && (
+                {touched.name && errors.name && (
                     <FormControlError>
                         <FormControlErrorIcon as={AlertCircleIcon} />
                         <FormControlErrorText>
@@ -111,8 +116,11 @@ const CreateUser = ({ navigation }: { navigation: any }) => {
                 </FormControlError>
             </FormControl>
 
-            <Select isInvalid={errors.identificationType !== '' ? true : false} isRequired={true}
-                onValueChange={(value) => setFieldValue('identificationType', value)}>
+            <Select isInvalid={touched.identificationType && !!errors.identificationType} isRequired={true}
+                onValueChange={(value) => setFieldValue('identificationType', value)}
+                onClose={() => setFieldTouched('identificationType', true)}
+                selectedValue={values.identificationType}
+            >
                 <SelectTrigger variant="underlined" size="md" >
                     <SelectInput placeholder="Tipo de identificación" />
                     <SelectIcon mr="$3">
@@ -130,10 +138,13 @@ const CreateUser = ({ navigation }: { navigation: any }) => {
                         <SelectItem label="Pasaporte" value="passport" />
                     </SelectContent>
                 </SelectPortal>
-                {errors.identificationType && (
-                    <Text>
-                        {errors.identificationType}
-                    </Text>
+                {touched.identificationType && errors.identificationType && (
+                    <Box flexDirection="row" gap="$1">
+                        <Icon color="$red700" as={AlertCircleIcon} />
+                        <Text color="$red700">
+                            {errors.identificationType}
+                        </Text>
+                    </Box>
                 )}
             </Select>
             <FormControl
