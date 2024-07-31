@@ -34,6 +34,8 @@ import * as Yup from 'yup';
 
 const CreateUser = ({ navigation }: { navigation: any }) => {
 
+    const [show, setShow] = useState(false);
+
     const validationSchema = Yup.object().shape({
         name: Yup.string().required('El nombre es obligatorio'),
         lastName: Yup.string().required('El apellido es obligatorio'),
@@ -41,7 +43,8 @@ const CreateUser = ({ navigation }: { navigation: any }) => {
         identificationNumber: Yup.string().required('El número de identificación es obligatorio'),
         phone: Yup.string().min(10, 'El número de teléfono debe tener al menos 10 caracteres'),
         email: Yup.string().email('El correo no es válido'),
-        address: Yup.string().min(3, 'La dirección debe tener al menos 3 caracteres'),
+        role: Yup.string().required('El rol es obligatorio'),
+        gender: Yup.string().required('El género es obligatorio'),
     });
 
     const { values, isSubmitting, setFieldValue, errors, touched, handleSubmit, handleChange, handleBlur, setFieldTouched } = useFormik({
@@ -54,7 +57,16 @@ const CreateUser = ({ navigation }: { navigation: any }) => {
             email: '',
             address: '',
             birthdate: new Date(),
+            urlPhoto: '',
             role: '',
+            country: 'Colombia',
+            department: 'Cauca',
+            city: 'Bolívar',
+            gender: '',
+            disability: '',
+            civilStatus: '',
+            job: '',
+
         },
         validationSchema: validationSchema,
         onSubmit: values => {
@@ -134,8 +146,8 @@ const CreateUser = ({ navigation }: { navigation: any }) => {
                             <SelectDragIndicator />
                         </SelectDragIndicatorWrapper>
                         <SelectItem label="Cedula" value="cedula" />
-                        <SelectItem label="Tarjeta Identidad" value="tarjetaIdentidad" />
-                        <SelectItem label="Pasaporte" value="passport" />
+                        <SelectItem label="Foráneo" value="tarjetaIdentidad" />
+                        <SelectItem label="Pasaporte" value="pasaporte" />
                     </SelectContent>
                 </SelectPortal>
                 {touched.identificationType && errors.identificationType && (
@@ -228,68 +240,176 @@ const CreateUser = ({ navigation }: { navigation: any }) => {
                 </FormControlError>
             </FormControl>
 
-            {/* <DateTimerPickerGeneric /> */}
+            <FormControl
+                size="lg"
+                minWidth="$80"
+                maxHeight="$96"
+                isDisabled={false}
+                isInvalid={touched.birthdate && !!errors.birthdate}
+                isReadOnly={false}
+                isRequired={false}
+            >
+                <Input variant='underlined'>
+                    <Button
+                        size="md"
+                        variant="link"
+                        rounded="$full"
+                        action="default"
+                        isDisabled={false}
+                        isFocusVisible={false}
+                        onPress={() => setShow(true)}
+                        width='100%'
+                    >
+                        <Box justifyContent="space-between" flexDirection="row" gap='$40'>
+                            <ButtonText color='$blueGray400'>Seleccionar fecha de nacimiento
+                            </ButtonText>
+                            <Box>
+                                <ButtonIcon color='$black' as={CalendarDaysIcon} size='md' />
+                            </Box>
+                        </Box>
+                    </Button>
+                </Input>
+                {show && (<DateTimePicker
+                    testID="dateTimePicker"
+                    value={values.birthdate}
+                    mode='date'
+                    is24Hour={true}
+                    onChange={(event, selectedDate) => {
+                        setShow(false)
+                        setFieldValue('birthdate', selectedDate)
+                        setFieldTouched('birthdate', true)
+                    }}
+                    maximumDate={new Date()}
+                    minimumDate={new Date(1920, 1, 1)}
+                    timeZoneName="America/Bogota"
+                />
+                )}
+            </FormControl>
+
+            <Select isInvalid={touched.role && !!errors.role} isRequired={true}
+                onValueChange={(value) => setFieldValue('role', value)}
+                onClose={() => setFieldTouched('role', true)}
+                selectedValue={values.role}
+            >
+                <SelectTrigger variant="underlined" size="md" >
+                    <SelectInput placeholder="Seleccione el rol" />
+                    <SelectIcon mr="$3">
+                        <Icon as={ChevronDownIcon} />
+                    </SelectIcon>
+                </SelectTrigger>
+                <SelectPortal>
+                    <SelectBackdrop />
+                    <SelectContent>
+                        <SelectDragIndicatorWrapper>
+                            <SelectDragIndicator />
+                        </SelectDragIndicatorWrapper>
+                        <SelectItem label="Residente" value="residente" />
+                        <SelectItem label="Foraneo" value="foraneo" />
+                        <SelectItem label="Visitante" value="visitante" />
+                    </SelectContent>
+                </SelectPortal>
+                {touched.role && errors.role && (
+                    <Box flexDirection="row" gap="$1">
+                        <Icon color="$red700" as={AlertCircleIcon} />
+                        <Text color="$red700">
+                            {errors.role}
+                        </Text>
+                    </Box>
+                )}
+            </Select>
+
+            <Select isInvalid={touched.gender && !!errors.gender} isRequired={true}
+                onValueChange={(value) => setFieldValue('gender', value)}
+                onClose={() => setFieldTouched('gender', true)}
+                selectedValue={values.gender}
+            >
+                <SelectTrigger variant="underlined" size="md" >
+                    <SelectInput placeholder="Seleccione su género" />
+                    <SelectIcon mr="$3">
+                        <Icon as={ChevronDownIcon} />
+                    </SelectIcon>
+                </SelectTrigger>
+                <SelectPortal>
+                    <SelectBackdrop />
+                    <SelectContent>
+                        <SelectDragIndicatorWrapper>
+                            <SelectDragIndicator />
+                        </SelectDragIndicatorWrapper>
+                        <SelectItem label="Masculino" value="masculino" />
+                        <SelectItem label="Feminino" value="femenino" />
+                    </SelectContent>
+                </SelectPortal>
+                {touched.gender && errors.gender && (
+                    <Box flexDirection="row" gap="$1">
+                        <Icon color="$red700" as={AlertCircleIcon} />
+                        <Text color="$red700">
+                            {errors.gender}
+                        </Text>
+                    </Box>
+                )}
+            </Select>
+
+            <Select isInvalid={touched.civilStatus && !!errors.civilStatus} isRequired={true}
+                onValueChange={(value) => setFieldValue('civilStatus', value)}
+                onClose={() => setFieldTouched('civilStatus', true)}
+                selectedValue={values.civilStatus}
+            >
+                <SelectTrigger variant="underlined" size="md" >
+                    <SelectInput placeholder="Seleccione su estado civil" />
+                    <SelectIcon mr="$3">
+                        <Icon as={ChevronDownIcon} />
+                    </SelectIcon>
+                </SelectTrigger>
+                <SelectPortal>
+                    <SelectBackdrop />
+                    <SelectContent>
+                        <SelectDragIndicatorWrapper>
+                            <SelectDragIndicator />
+                        </SelectDragIndicatorWrapper>
+                        <SelectItem label="Soltero(a)" value="soltero" />
+                        <SelectItem label="Casado(a)" value="casado" />
+                        <SelectItem label="Union libre" value="unionLibre" />    
+                        <SelectItem label="Divorsiado(a)" value="divorsiado" />    
+                    </SelectContent>
+                </SelectPortal>
+                {touched.civilStatus && errors.civilStatus && (
+                    <Box flexDirection="row" gap="$1">
+                        <Icon color="$red700" as={AlertCircleIcon} />
+                        <Text color="$red700">
+                            {errors.civilStatus}
+                        </Text>
+                    </Box>
+                )}
+            </Select>
+
+            <FormControl
+                size="lg"
+                minWidth="$80"
+                maxHeight="$96"
+                isDisabled={false}
+                isInvalid={false}
+                isReadOnly={false}
+                isRequired={false}
+            >
+                <Input variant='underlined'>
+                    <InputField type="text" defaultValue="" placeholder="Trabajo actual" />
+                </Input>
+                <FormControlError>
+                    <FormControlErrorIcon as={AlertCircleIcon} />
+                    <FormControlErrorText>
+                        El trabajo debe tener al menos 3 caracteres
+                    </FormControlErrorText>
+                </FormControlError>
+            </FormControl>
 
             <Button onPress={
                 handleSubmit
             } // navigation.navigate(Screens.Home);
                 size="md" mt="$2" variant="solid" bgColor='$primary500' action="primary" isDisabled={false} isFocusVisible={false} >
-                <ButtonText>Crear cuenta</ButtonText>
+                <ButtonText>Crear usuario</ButtonText>
             </Button>
         </Box>
     );
 }
-
-export const DateTimerPickerGeneric = () => {
-
-    const [date, setDate] = useState(new Date(1598051730000));
-    const [mode, setMode] = useState('date');
-    const [show, setShow] = useState(false);
-
-    const onChange = ({ event, selectedDate }: { event: any, selectedDate: any }) => {
-        const currentDate = selectedDate;
-        setShow(false);
-        setDate(currentDate);
-    };
-
-    const showMode = (currentMode: string) => {
-        setShow(true);
-        setMode(currentMode);
-    };
-
-    const showDatepicker = () => {
-        showMode('date');
-    };
-
-    const showTimepicker = () => {
-        showMode('time');
-    };
-
-    return (
-        <SafeAreaView>
-            <Button
-                size="md"
-                variant="link"
-                rounded="$full"
-                action="default"
-                isDisabled={false}
-                isFocusVisible={false}
-                onPress={showDatepicker}
-            >
-                <ButtonText color='$blueGray400' >Seleccionar fecha de nacimiento</ButtonText>
-                <ButtonIcon color='$black' as={CalendarDaysIcon} size='md' />
-            </Button>
-            {show && (
-                <DateTimePicker
-                    testID="dateTimePicker"
-                    value={date}
-                    mode={mode}
-                    is24Hour={true}
-                    onChange={onChange}
-                />
-            )}
-        </SafeAreaView>
-    );
-};
 
 export default CreateUser;
