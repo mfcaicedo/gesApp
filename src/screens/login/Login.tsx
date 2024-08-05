@@ -36,7 +36,7 @@ const Login = ({ navigation }: { navigation: any }) => {
 
             const user = await signInWithEmailAndPassword(FIREBASE_AUTH, email, password);
             showToast();
-            navigation.navigate('Home');
+            navigation.navigate(Screens.Home);
 
         } catch (error) {
 
@@ -127,8 +127,8 @@ const Login = ({ navigation }: { navigation: any }) => {
                     </FormControlError>
                 </FormControl>
                 <Button onPress={() => {
-                    // handleLogin();
-                    navigation.navigate(Screens.Home);
+                    handleLogin();
+                    // navigation.navigate(Screens.Home);
                 }}
                     size="md" mt="$2" variant="solid" bgColor='$primary500' action="primary" isDisabled={false} isFocusVisible={false} >
                     <ButtonText>Iniciar sesión</ButtonText>

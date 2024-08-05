@@ -23,14 +23,17 @@ import {
     SelectDragIndicator,
     SelectItem,
     CalendarDaysIcon,
+    KeyboardAvoidingView,
 } from "@gluestack-ui/themed";
-import { ScrollView } from "react-native";
+import { Platform, ScrollView } from "react-native";
 import { Screens } from "../../enums/navigation/screens.enum";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { SafeAreaView } from "react-native-safe-area-context";
+import userService from "../../services/user-management/userService";
 
 import { Formik, useFormik } from 'formik';
 import * as Yup from 'yup';
+import { UserRequest } from "../../models/user-management/userModel";
 
 const CreateUser = ({ navigation }: { navigation: any }) => {
 
@@ -70,345 +73,396 @@ const CreateUser = ({ navigation }: { navigation: any }) => {
         },
         validationSchema: validationSchema,
         onSubmit: values => {
-            console.log("los valores", values);
-            // navigation.navigate(Screens.Home);
+            // console.log("los valores", values);
+            const userRequest: UserRequest = {
+                ...values
+            }
+            createUser(values);
         }
     });
 
+    const createUser = async (values: UserRequest) => {
+        await userService.saveUser(values);
+
+    }
+
     return (
-        <Box justifyContent='center' alignContent='center' gap='$7' m='$2'>
-            <Text>
-                Completa los siguientes campos para crear el usuario
-                {touched.name && (
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : ""}>
+            <ScrollView>
+                <Box justifyContent='center' alignContent='center' gap='$7' m='$2' h='$full' pb='$3'>
                     <Text>
-                        {errors.name}
+                        Completa los siguientes campos para crear el usuario
                     </Text>
-                )}
-            </Text>
-            <FormControl
-                size="lg"
-                minWidth="$80"
-                maxHeight="$96"
-                isDisabled={false}
-                isInvalid={touched.name && !!errors.name}
-                isReadOnly={false}
-                isRequired={true}
-            >
-                <Input variant='underlined'
-                >
-                    <InputField type="text" value={values.name}
-                        onChangeText={handleChange('name')}
-                        onBlur={handleBlur('name')}
-                        defaultValue="" placeholder="Nombres" />
-                </Input>
-                {touched.name && errors.name && (
-                    <FormControlError>
-                        <FormControlErrorIcon as={AlertCircleIcon} />
-                        <FormControlErrorText>
-                            {errors.name}
-                        </FormControlErrorText>
-                    </FormControlError>
-                )}
-            </FormControl>
-            <FormControl
-                size="lg"
-                isDisabled={false}
-                isInvalid={false}
-                isReadOnly={false}
-                isRequired={true}
-            >
-                <Input variant='underlined'>
-                    <InputField type="text" defaultValue="" placeholder="Apellidos" />
-                </Input>
-                <FormControlError>
-                    <FormControlErrorIcon as={AlertCircleIcon} />
-                    <FormControlErrorText>
-                        El apellido es obligatorio
-                    </FormControlErrorText>
-                </FormControlError>
-            </FormControl>
-
-            <Select isInvalid={touched.identificationType && !!errors.identificationType} isRequired={true}
-                onValueChange={(value) => setFieldValue('identificationType', value)}
-                onClose={() => setFieldTouched('identificationType', true)}
-                selectedValue={values.identificationType}
-            >
-                <SelectTrigger variant="underlined" size="md" >
-                    <SelectInput placeholder="Tipo de identificación" />
-                    <SelectIcon mr="$3">
-                        <Icon as={ChevronDownIcon} />
-                    </SelectIcon>
-                </SelectTrigger>
-                <SelectPortal>
-                    <SelectBackdrop />
-                    <SelectContent>
-                        <SelectDragIndicatorWrapper>
-                            <SelectDragIndicator />
-                        </SelectDragIndicatorWrapper>
-                        <SelectItem label="Cedula" value="cedula" />
-                        <SelectItem label="Foráneo" value="tarjetaIdentidad" />
-                        <SelectItem label="Pasaporte" value="pasaporte" />
-                    </SelectContent>
-                </SelectPortal>
-                {touched.identificationType && errors.identificationType && (
-                    <Box flexDirection="row" gap="$1">
-                        <Icon color="$red700" as={AlertCircleIcon} />
-                        <Text color="$red700">
-                            {errors.identificationType}
-                        </Text>
-                    </Box>
-                )}
-            </Select>
-            <FormControl
-                size="lg"
-                minWidth="$80"
-                maxHeight="$96"
-                isDisabled={false}
-                isInvalid={false}
-                isReadOnly={false}
-                isRequired={true}
-            >
-                <Input variant='underlined'>
-                    <InputField type="text" defaultValue=""
-                        placeholder="Número identificación"
-                        keyboardType='numeric' />
-                </Input>
-                <FormControlError>
-                    <FormControlErrorIcon as={AlertCircleIcon} />
-                    <FormControlErrorText>
-                        El número de identificación es obligatorio
-                    </FormControlErrorText>
-                </FormControlError>
-            </FormControl>
-            <FormControl
-                size="lg"
-                minWidth="$80"
-                maxHeight="$96"
-                isDisabled={false}
-                isInvalid={false}
-                isReadOnly={false}
-                isRequired={true}
-            >
-                <Input variant='underlined'>
-                    <InputField type="text" defaultValue=""
-                        placeholder="Teléfono o celular"
-                        keyboardType='numeric' />
-                </Input>
-                <FormControlError>
-                    <FormControlErrorIcon as={AlertCircleIcon} />
-                    <FormControlErrorText>
-                        No se permiten caracteres especiales
-                    </FormControlErrorText>
-                </FormControlError>
-            </FormControl>
-            <FormControl
-                size="lg"
-                minWidth="$80"
-                maxHeight="$96"
-                isDisabled={false}
-                isInvalid={false}
-                isReadOnly={false}
-                isRequired={false}
-            >
-                <Input variant='underlined'>
-                    <InputField type="text" defaultValue="" placeholder="Correo" />
-                </Input>
-                <FormControlError>
-                    <FormControlErrorIcon as={AlertCircleIcon} />
-                    <FormControlErrorText>
-                        Ingrese un correo válido
-                    </FormControlErrorText>
-                </FormControlError>
-            </FormControl>
-            <FormControl
-                size="lg"
-                minWidth="$80"
-                maxHeight="$96"
-                isDisabled={false}
-                isInvalid={false}
-                isReadOnly={false}
-                isRequired={false}
-            >
-                <Input variant='underlined'>
-                    <InputField type="text" defaultValue="" placeholder="Dirección" />
-                </Input>
-                <FormControlError>
-                    <FormControlErrorIcon as={AlertCircleIcon} />
-                    <FormControlErrorText>
-                        La dirección debe tener al memos 3 caracteres
-                    </FormControlErrorText>
-                </FormControlError>
-            </FormControl>
-
-            <FormControl
-                size="lg"
-                minWidth="$80"
-                maxHeight="$96"
-                isDisabled={false}
-                isInvalid={touched.birthdate && !!errors.birthdate}
-                isReadOnly={false}
-                isRequired={false}
-            >
-                <Input variant='underlined'>
-                    <Button
-                        size="md"
-                        variant="link"
-                        rounded="$full"
-                        action="default"
+                    <FormControl
+                        size="lg"
+                        minWidth="$80"
+                        maxHeight="$96"
                         isDisabled={false}
-                        isFocusVisible={false}
-                        onPress={() => setShow(true)}
-                        width='100%'
+                        isInvalid={touched.name && !!errors.name}
+                        isReadOnly={false}
+                        isRequired={true}
                     >
-                        <Box justifyContent="space-between" flexDirection="row" gap='$40'>
-                            <ButtonText color='$blueGray400'>Seleccionar fecha de nacimiento
-                            </ButtonText>
-                            <Box>
-                                <ButtonIcon color='$black' as={CalendarDaysIcon} size='md' />
+                        <Input variant='underlined'
+                        >
+                            <InputField type="text" value={values.name}
+                                onChangeText={handleChange('name')}
+                                onBlur={handleBlur('name')}
+                                defaultValue="" placeholder="Nombres" />
+                        </Input>
+                        {touched.name && errors.name && (
+                            <FormControlError>
+                                <FormControlErrorIcon as={AlertCircleIcon} />
+                                <FormControlErrorText>
+                                    {errors.name}
+                                </FormControlErrorText>
+                            </FormControlError>
+                        )}
+                    </FormControl>
+                    <FormControl
+                        size="lg"
+                        isDisabled={false}
+                        isInvalid={touched.lastName && !!errors.lastName}
+                        isReadOnly={false}
+                        isRequired={true}
+                    >
+                        <Input variant='underlined'>
+                            <InputField type="text"
+                                value={values.lastName}
+                                onChangeText={handleChange('lastName')}
+                                onBlur={handleBlur('lastName')}
+                                defaultValue="" placeholder="Apellidos" />
+                        </Input>
+                        {touched.lastName && errors.lastName && (
+                            <FormControlError>
+                                <FormControlErrorIcon as={AlertCircleIcon} />
+                                <FormControlErrorText>
+                                    {errors.lastName}
+                                </FormControlErrorText>
+                            </FormControlError>
+                        )}
+                    </FormControl>
+
+                    <Select isInvalid={touched.identificationType && !!errors.identificationType} isRequired={true}
+                        onValueChange={(value) => setFieldValue('identificationType', value)}
+                        // onClose={() => setFieldTouched('identificationType', true)}
+                        selectedValue={values.identificationType}
+                    >
+                        <SelectTrigger variant="underlined" size="md" >
+                            <SelectInput placeholder="Tipo de identificación" />
+                            <SelectIcon mr="$3">
+                                <Icon as={ChevronDownIcon} />
+                            </SelectIcon>
+                        </SelectTrigger>
+                        <SelectPortal>
+                            <SelectBackdrop />
+                            <SelectContent>
+                                <SelectDragIndicatorWrapper>
+                                    <SelectDragIndicator />
+                                </SelectDragIndicatorWrapper>
+                                <SelectItem label="Cedula" value="cedula" />
+                                <SelectItem label="Foráneo" value="tarjetaIdentidad" />
+                                <SelectItem label="Pasaporte" value="pasaporte" />
+                            </SelectContent>
+                        </SelectPortal>
+                        {touched.identificationType && errors.identificationType && (
+                            <Box flexDirection="row" gap="$1">
+                                <Icon color="$red700" as={AlertCircleIcon} />
+                                <Text color="$red700">
+                                    {errors.identificationType}
+                                </Text>
                             </Box>
-                        </Box>
+                        )}
+                    </Select>
+                    <FormControl
+                        size="lg"
+                        minWidth="$80"
+                        maxHeight="$96"
+                        isDisabled={false}
+                        isInvalid={touched.identificationNumber && !!errors.identificationNumber}
+                        isReadOnly={false}
+                        isRequired={true}
+                    >
+                        <Input variant='underlined'>
+                            <InputField type="text"
+                                value={values.identificationNumber}
+                                onChangeText={handleChange('identificationNumber')}
+                                onBlur={handleBlur('identificationNumber')}
+                                defaultValue=""
+                                placeholder="Número identificación"
+                                keyboardType='numeric' />
+                        </Input>
+                        {touched.identificationNumber && errors.identificationNumber && (
+                            <FormControlError>
+                                <FormControlErrorIcon as={AlertCircleIcon} />
+                                <FormControlErrorText>
+                                    {errors.identificationNumber}
+                                </FormControlErrorText>
+                            </FormControlError>
+                        )}
+                    </FormControl>
+                    <FormControl
+                        size="lg"
+                        minWidth="$80"
+                        maxHeight="$96"
+                        isDisabled={false}
+                        isInvalid={touched.phone && !!errors.phone}
+                        isReadOnly={false}
+                        isRequired={true}
+                    >
+                        <Input variant='underlined'>
+                            <InputField type="text"
+                                value={values.phone}
+                                onChangeText={handleChange('phone')}
+                                onBlur={handleBlur('phone')}
+                                defaultValue=""
+                                placeholder="Teléfono o celular"
+                                keyboardType='numeric' />
+                        </Input>
+                        {touched.phone && errors.phone && (
+                            <FormControlError>
+                                <FormControlErrorIcon as={AlertCircleIcon} />
+                                <FormControlErrorText>
+                                    {errors.phone}
+                                </FormControlErrorText>
+                            </FormControlError>
+                        )}
+                    </FormControl>
+                    <FormControl
+                        size="lg"
+                        minWidth="$80"
+                        maxHeight="$96"
+                        isDisabled={false}
+                        isInvalid={touched.email && !!errors.email}
+                        isReadOnly={false}
+                        isRequired={false}
+                    >
+                        <Input variant='underlined'>
+                            <InputField type="text"
+                                value={values.email}
+                                onChangeText={handleChange('email')}
+                                onBlur={handleBlur('email')}
+                                defaultValue="" placeholder="Correo"
+                                keyboardType="email-address"
+                                autoCapitalize='none'
+                            />
+                        </Input>
+                        {touched.email && errors.email && (
+                            <FormControlError>
+                                <FormControlErrorIcon as={AlertCircleIcon} />
+                                <FormControlErrorText>
+                                    {errors.email}
+                                </FormControlErrorText>
+                            </FormControlError>
+                        )}
+                    </FormControl>
+                    <FormControl
+                        size="lg"
+                        minWidth="$80"
+                        maxHeight="$96"
+                        isDisabled={false}
+                        isInvalid={false}
+                        isReadOnly={false}
+                        isRequired={false}
+                    >
+                        <Input variant='underlined'>
+                            <InputField type="text"
+                                value={values.address}
+                                onChangeText={handleChange('address')}
+                                onBlur={handleBlur('address')}
+                                defaultValue="" placeholder="Dirección" />
+                        </Input>
+                        <FormControlError>
+                            <FormControlErrorIcon as={AlertCircleIcon} />
+                            <FormControlErrorText>
+                                La dirección debe tener al memos 3 caracteres
+                            </FormControlErrorText>
+                        </FormControlError>
+                    </FormControl>
+
+                    <FormControl
+                        size="lg"
+                        minWidth="$80"
+                        maxHeight="$96"
+                        isDisabled={false}
+                        isInvalid={false}
+                        isReadOnly={false}
+                        isRequired={false}
+                    >
+                        <Input variant='underlined'>
+                            <InputField type="text"
+                                value={values.job}
+                                onChangeText={handleChange('job')}
+                                onBlur={handleBlur('job')}
+                                defaultValue="" placeholder="Trabajo actual" />
+                        </Input>
+                        <FormControlError>
+                            <FormControlErrorIcon as={AlertCircleIcon} />
+                            <FormControlErrorText>
+                                {errors.job}
+                            </FormControlErrorText>
+                        </FormControlError>
+                    </FormControl>
+
+                    <FormControl
+                        size="lg"
+                        minWidth="$80"
+                        maxHeight="$96"
+                        isDisabled={false}
+                        isInvalid={touched.birthdate && !!errors.birthdate}
+                        isReadOnly={false}
+                        isRequired={false}
+                    >
+                        <Input variant='underlined'>
+                            <Button
+                                size="md"
+                                variant="link"
+                                rounded="$full"
+                                action="default"
+                                isDisabled={false}
+                                isFocusVisible={false}
+                                onPress={() => setShow(true)}
+                                width='100%'
+                            >
+                                <Box justifyContent="space-between" flexDirection="row" gap='$40'>
+                                    <ButtonText color='$blueGray400'>Seleccionar fecha de nacimiento
+                                    </ButtonText>
+                                    <Box>
+                                        <ButtonIcon color='$black' as={CalendarDaysIcon} size='md' />
+                                    </Box>
+                                </Box>
+                            </Button>
+                        </Input>
+                        {show && (<DateTimePicker
+                            testID="dateTimePicker"
+                            value={values.birthdate}
+                            mode='date'
+                            is24Hour={true}
+                            onChange={(event, selectedDate) => {
+                                const currentDate = selectedDate || values.birthdate
+                                const localDate = new Date(
+                                    currentDate.getFullYear(),
+                                    currentDate.getMonth(),
+                                    currentDate.getDate(),
+                                )
+                                setShow(false)
+                                setFieldValue('birthdate', localDate)
+                                setFieldTouched('birthdate', true)
+                            }}
+                            maximumDate={new Date()}
+                            minimumDate={new Date(1920, 1, 1)}
+                            timeZoneName="America/Bogota"
+
+                        />
+                        )}
+                    </FormControl>
+
+                    <Select isInvalid={touched.role && !!errors.role} isRequired={true}
+                        onValueChange={(value) => setFieldValue('role', value)}
+                        // onClose={() => setFieldTouched('role', true)}
+                        selectedValue={values.role}
+                    >
+                        <SelectTrigger variant="underlined" size="md" >
+                            <SelectInput placeholder="Seleccione el rol" />
+                            <SelectIcon mr="$3">
+                                <Icon as={ChevronDownIcon} />
+                            </SelectIcon>
+                        </SelectTrigger>
+                        <SelectPortal>
+                            <SelectBackdrop />
+                            <SelectContent>
+                                <SelectDragIndicatorWrapper>
+                                    <SelectDragIndicator />
+                                </SelectDragIndicatorWrapper>
+                                <SelectItem label="Residente" value="residente" />
+                                <SelectItem label="Foraneo" value="foraneo" />
+                                <SelectItem label="Visitante" value="visitante" />
+                            </SelectContent>
+                        </SelectPortal>
+                        {touched.role && errors.role && (
+                            <Box flexDirection="row" gap="$1">
+                                <Icon color="$red700" as={AlertCircleIcon} />
+                                <Text color="$red700">
+                                    {errors.role}
+                                </Text>
+                            </Box>
+                        )}
+                    </Select>
+
+                    <Select isInvalid={touched.gender && !!errors.gender} isRequired={true}
+                        onValueChange={(value) => setFieldValue('gender', value)}
+                        // onClose={() => setFieldTouched('gender', true)}
+                        selectedValue={values.gender}
+                    >
+                        <SelectTrigger variant="underlined" size="md" >
+                            <SelectInput placeholder="Seleccione su género" />
+                            <SelectIcon mr="$3">
+                                <Icon as={ChevronDownIcon} />
+                            </SelectIcon>
+                        </SelectTrigger>
+                        <SelectPortal>
+                            <SelectBackdrop />
+                            <SelectContent>
+                                <SelectDragIndicatorWrapper>
+                                    <SelectDragIndicator />
+                                </SelectDragIndicatorWrapper>
+                                <SelectItem label="Masculino" value="masculino" />
+                                <SelectItem label="Feminino" value="femenino" />
+                            </SelectContent>
+                        </SelectPortal>
+                        {touched.gender && errors.gender && (
+                            <Box flexDirection="row" gap="$1">
+                                <Icon color="$red700" as={AlertCircleIcon} />
+                                <Text color="$red700">
+                                    {errors.gender}
+                                </Text>
+                            </Box>
+                        )}
+                    </Select>
+
+                    <Select isInvalid={touched.civilStatus && !!errors.civilStatus} isRequired={true}
+                        onValueChange={(value) => setFieldValue('civilStatus', value)}
+                        onClose={() => setFieldTouched('civilStatus', true)}
+                        selectedValue={values.civilStatus}
+                    >
+                        <SelectTrigger variant="underlined" size="md" >
+                            <SelectInput placeholder="Seleccione su estado civil" />
+                            <SelectIcon mr="$3">
+                                <Icon as={ChevronDownIcon} />
+                            </SelectIcon>
+                        </SelectTrigger>
+                        <SelectPortal>
+                            <SelectBackdrop />
+                            <SelectContent>
+                                <SelectDragIndicatorWrapper>
+                                    <SelectDragIndicator />
+                                </SelectDragIndicatorWrapper>
+                                <SelectItem label="Soltero(a)" value="soltero" />
+                                <SelectItem label="Casado(a)" value="casado" />
+                                <SelectItem label="Union libre" value="unionLibre" />
+                                <SelectItem label="Divorsiado(a)" value="divorsiado" />
+                            </SelectContent>
+                        </SelectPortal>
+                        {touched.civilStatus && errors.civilStatus && (
+                            <Box flexDirection="row" gap="$1">
+                                <Icon color="$red700" as={AlertCircleIcon} />
+                                <Text color="$red700">
+                                    {errors.civilStatus}
+                                </Text>
+                            </Box>
+                        )}
+                    </Select>
+
+                    <Button onPress={
+                        handleSubmit
+                    } // navigation.navigate(Screens.Home);
+                        size="md" mt="$2" variant="solid" bgColor='$primary500' action="primary" isDisabled={false} isFocusVisible={false} >
+                        <ButtonText>Crear usuario</ButtonText>
                     </Button>
-                </Input>
-                {show && (<DateTimePicker
-                    testID="dateTimePicker"
-                    value={values.birthdate}
-                    mode='date'
-                    is24Hour={true}
-                    onChange={(event, selectedDate) => {
-                        setShow(false)
-                        setFieldValue('birthdate', selectedDate)
-                        setFieldTouched('birthdate', true)
-                    }}
-                    maximumDate={new Date()}
-                    minimumDate={new Date(1920, 1, 1)}
-                    timeZoneName="America/Bogota"
-                />
-                )}
-            </FormControl>
 
-            <Select isInvalid={touched.role && !!errors.role} isRequired={true}
-                onValueChange={(value) => setFieldValue('role', value)}
-                onClose={() => setFieldTouched('role', true)}
-                selectedValue={values.role}
-            >
-                <SelectTrigger variant="underlined" size="md" >
-                    <SelectInput placeholder="Seleccione el rol" />
-                    <SelectIcon mr="$3">
-                        <Icon as={ChevronDownIcon} />
-                    </SelectIcon>
-                </SelectTrigger>
-                <SelectPortal>
-                    <SelectBackdrop />
-                    <SelectContent>
-                        <SelectDragIndicatorWrapper>
-                            <SelectDragIndicator />
-                        </SelectDragIndicatorWrapper>
-                        <SelectItem label="Residente" value="residente" />
-                        <SelectItem label="Foraneo" value="foraneo" />
-                        <SelectItem label="Visitante" value="visitante" />
-                    </SelectContent>
-                </SelectPortal>
-                {touched.role && errors.role && (
-                    <Box flexDirection="row" gap="$1">
-                        <Icon color="$red700" as={AlertCircleIcon} />
-                        <Text color="$red700">
-                            {errors.role}
-                        </Text>
-                    </Box>
-                )}
-            </Select>
+                </Box>
+            </ScrollView>
+        </KeyboardAvoidingView>
 
-            <Select isInvalid={touched.gender && !!errors.gender} isRequired={true}
-                onValueChange={(value) => setFieldValue('gender', value)}
-                onClose={() => setFieldTouched('gender', true)}
-                selectedValue={values.gender}
-            >
-                <SelectTrigger variant="underlined" size="md" >
-                    <SelectInput placeholder="Seleccione su género" />
-                    <SelectIcon mr="$3">
-                        <Icon as={ChevronDownIcon} />
-                    </SelectIcon>
-                </SelectTrigger>
-                <SelectPortal>
-                    <SelectBackdrop />
-                    <SelectContent>
-                        <SelectDragIndicatorWrapper>
-                            <SelectDragIndicator />
-                        </SelectDragIndicatorWrapper>
-                        <SelectItem label="Masculino" value="masculino" />
-                        <SelectItem label="Feminino" value="femenino" />
-                    </SelectContent>
-                </SelectPortal>
-                {touched.gender && errors.gender && (
-                    <Box flexDirection="row" gap="$1">
-                        <Icon color="$red700" as={AlertCircleIcon} />
-                        <Text color="$red700">
-                            {errors.gender}
-                        </Text>
-                    </Box>
-                )}
-            </Select>
-
-            <Select isInvalid={touched.civilStatus && !!errors.civilStatus} isRequired={true}
-                onValueChange={(value) => setFieldValue('civilStatus', value)}
-                onClose={() => setFieldTouched('civilStatus', true)}
-                selectedValue={values.civilStatus}
-            >
-                <SelectTrigger variant="underlined" size="md" >
-                    <SelectInput placeholder="Seleccione su estado civil" />
-                    <SelectIcon mr="$3">
-                        <Icon as={ChevronDownIcon} />
-                    </SelectIcon>
-                </SelectTrigger>
-                <SelectPortal>
-                    <SelectBackdrop />
-                    <SelectContent>
-                        <SelectDragIndicatorWrapper>
-                            <SelectDragIndicator />
-                        </SelectDragIndicatorWrapper>
-                        <SelectItem label="Soltero(a)" value="soltero" />
-                        <SelectItem label="Casado(a)" value="casado" />
-                        <SelectItem label="Union libre" value="unionLibre" />    
-                        <SelectItem label="Divorsiado(a)" value="divorsiado" />    
-                    </SelectContent>
-                </SelectPortal>
-                {touched.civilStatus && errors.civilStatus && (
-                    <Box flexDirection="row" gap="$1">
-                        <Icon color="$red700" as={AlertCircleIcon} />
-                        <Text color="$red700">
-                            {errors.civilStatus}
-                        </Text>
-                    </Box>
-                )}
-            </Select>
-
-            <FormControl
-                size="lg"
-                minWidth="$80"
-                maxHeight="$96"
-                isDisabled={false}
-                isInvalid={false}
-                isReadOnly={false}
-                isRequired={false}
-            >
-                <Input variant='underlined'>
-                    <InputField type="text" defaultValue="" placeholder="Trabajo actual" />
-                </Input>
-                <FormControlError>
-                    <FormControlErrorIcon as={AlertCircleIcon} />
-                    <FormControlErrorText>
-                        El trabajo debe tener al menos 3 caracteres
-                    </FormControlErrorText>
-                </FormControlError>
-            </FormControl>
-
-            <Button onPress={
-                handleSubmit
-            } // navigation.navigate(Screens.Home);
-                size="md" mt="$2" variant="solid" bgColor='$primary500' action="primary" isDisabled={false} isFocusVisible={false} >
-                <ButtonText>Crear usuario</ButtonText>
-            </Button>
-        </Box>
     );
 }
 
