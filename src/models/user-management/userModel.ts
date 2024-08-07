@@ -1,20 +1,20 @@
 export interface UserRequest {
     uid?: string;
-    name: string;
-    lastName: string;
-    identificationType: string;
-    identificationNumber: number | string;
-    phone: number | string;
+    nombre: string;
+    apellido: string;
+    tipoIdentificacion: string;
+    numeroIdentificacion: number | string;
+    telefono: number | string;
     email: string;
-    address: string;
-    birthdate: string | Date;
-    urlPhoto: string;
-    role: string;
-    country: string;
-    department: string;
-    city: string;
-    gender: string;
-    disability: string;
-    civilStatus: string;
-    job: string;
+    direccion: string;
+    fechaNacimiento: string | Date;
+    urlFoto: string;
+    rol: string;
+    pais: string;
+    departamento: string;
+    ciudad: string;
+    genero: string;
+    discapacidad: string;
+    estadoCivil: string;
+    ocupacion: string;
 }

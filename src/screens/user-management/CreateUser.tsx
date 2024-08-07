@@ -40,35 +40,35 @@ const CreateUser = ({ navigation }: { navigation: any }) => {
     const [show, setShow] = useState(false);
 
     const validationSchema = Yup.object().shape({
-        name: Yup.string().required('El nombre es obligatorio'),
-        lastName: Yup.string().required('El apellido es obligatorio'),
-        identificationType: Yup.string().required('El tipo de identificación es obligatorio'),
-        identificationNumber: Yup.string().required('El número de identificación es obligatorio'),
-        phone: Yup.string().min(10, 'El número de teléfono debe tener al menos 10 caracteres'),
+        nombre: Yup.string().required('El nombre es obligatorio'),
+        apellido: Yup.string().required('El apellido es obligatorio'),
+        tipoIdentificacion: Yup.string().required('El tipo de identificación es obligatorio'),
+        numeroIdentificacion: Yup.string().required('El número de identificación es obligatorio'),
+        telefono: Yup.string().min(10, 'El número de teléfono debe tener al menos 10 caracteres'),
         email: Yup.string().email('El correo no es válido'),
-        role: Yup.string().required('El rol es obligatorio'),
-        gender: Yup.string().required('El género es obligatorio'),
+        rol: Yup.string().required('El rol es obligatorio'),
+        genero: Yup.string().required('El género es obligatorio'),
     });
 
     const { values, isSubmitting, setFieldValue, errors, touched, handleSubmit, handleChange, handleBlur, setFieldTouched } = useFormik({
         initialValues: {
-            name: '',
-            lastName: '',
-            identificationType: '',
-            identificationNumber: '',
-            phone: '',
+            nombre: '',
+            apellido: '',
+            tipoIdentificacion: '',
+            numeroIdentificacion: '',
+            telefono: '',
             email: '',
-            address: '',
-            birthdate: new Date(),
-            urlPhoto: '',
-            role: '',
-            country: 'Colombia',
-            department: 'Cauca',
-            city: 'Bolívar',
-            gender: '',
-            disability: '',
-            civilStatus: '',
-            job: '',
+            direccion: '',
+            fechaNacimiento: new Date(),
+            urlFoto: '',
+            rol: '',
+            pais: 'Colombia',
+            departamento: 'Cauca',
+            ciudad: 'Bolívar',
+            genero: '',
+            discapacidad: '',
+            estadoCivil: '',
+            ocupacion: '',
 
         },
         validationSchema: validationSchema,
@@ -98,22 +98,22 @@ const CreateUser = ({ navigation }: { navigation: any }) => {
                         minWidth="$80"
                         maxHeight="$96"
                         isDisabled={false}
-                        isInvalid={touched.name && !!errors.name}
+                        isInvalid={touched.nombre && !!errors.nombre}
                         isReadOnly={false}
                         isRequired={true}
                     >
                         <Input variant='underlined'
                         >
-                            <InputField type="text" value={values.name}
-                                onChangeText={handleChange('name')}
-                                onBlur={handleBlur('name')}
+                            <InputField type="text" value={values.nombre}
+                                onChangeText={handleChange('nombre')}
+                                onBlur={handleBlur('nombre')}
                                 defaultValue="" placeholder="Nombres" />
                         </Input>
-                        {touched.name && errors.name && (
+                        {touched.nombre && errors.nombre && (
                             <FormControlError>
                                 <FormControlErrorIcon as={AlertCircleIcon} />
                                 <FormControlErrorText>
-                                    {errors.name}
+                                    {errors.nombre}
                                 </FormControlErrorText>
                             </FormControlError>
                         )}
@@ -121,31 +121,31 @@ const CreateUser = ({ navigation }: { navigation: any }) => {
                     <FormControl
                         size="lg"
                         isDisabled={false}
-                        isInvalid={touched.lastName && !!errors.lastName}
+                        isInvalid={touched.apellido && !!errors.apellido}
                         isReadOnly={false}
                         isRequired={true}
                     >
                         <Input variant='underlined'>
                             <InputField type="text"
-                                value={values.lastName}
-                                onChangeText={handleChange('lastName')}
-                                onBlur={handleBlur('lastName')}
+                                value={values.apellido}
+                                onChangeText={handleChange('apellido')}
+                                onBlur={handleBlur('apellido')}
                                 defaultValue="" placeholder="Apellidos" />
                         </Input>
-                        {touched.lastName && errors.lastName && (
+                        {touched.apellido && errors.apellido && (
                             <FormControlError>
                                 <FormControlErrorIcon as={AlertCircleIcon} />
                                 <FormControlErrorText>
-                                    {errors.lastName}
+                                    {errors.apellido}
                                 </FormControlErrorText>
                             </FormControlError>
                         )}
                     </FormControl>
 
-                    <Select isInvalid={touched.identificationType && !!errors.identificationType} isRequired={true}
-                        onValueChange={(value) => setFieldValue('identificationType', value)}
-                        // onClose={() => setFieldTouched('identificationType', true)}
-                        selectedValue={values.identificationType}
+                    <Select isInvalid={touched.tipoIdentificacion && !!errors.tipoIdentificacion} isRequired={true}
+                        onValueChange={(value) => setFieldValue('tipoIdentificacion', value)}
+                        // onClose={() => setFieldTouched('tipoIdentificacion', true)}
+                        selectedValue={values.tipoIdentificacion}
                     >
                         <SelectTrigger variant="underlined" size="md" >
                             <SelectInput placeholder="Tipo de identificación" />
@@ -164,11 +164,11 @@ const CreateUser = ({ navigation }: { navigation: any }) => {
                                 <SelectItem label="Pasaporte" value="pasaporte" />
                             </SelectContent>
                         </SelectPortal>
-                        {touched.identificationType && errors.identificationType && (
+                        {touched.tipoIdentificacion && errors.tipoIdentificacion && (
                             <Box flexDirection="row" gap="$1">
                                 <Icon color="$red700" as={AlertCircleIcon} />
                                 <Text color="$red700">
-                                    {errors.identificationType}
+                                    {errors.tipoIdentificacion}
                                 </Text>
                             </Box>
                         )}
@@ -178,24 +178,24 @@ const CreateUser = ({ navigation }: { navigation: any }) => {
                         minWidth="$80"
                         maxHeight="$96"
                         isDisabled={false}
-                        isInvalid={touched.identificationNumber && !!errors.identificationNumber}
+                        isInvalid={touched.numeroIdentificacion && !!errors.numeroIdentificacion}
                         isReadOnly={false}
                         isRequired={true}
                     >
                         <Input variant='underlined'>
                             <InputField type="text"
-                                value={values.identificationNumber}
-                                onChangeText={handleChange('identificationNumber')}
-                                onBlur={handleBlur('identificationNumber')}
+                                value={values.numeroIdentificacion}
+                                onChangeText={handleChange('numeroIdentificacion')}
+                                onBlur={handleBlur('numeroIdentificacion')}
                                 defaultValue=""
                                 placeholder="Número identificación"
                                 keyboardType='numeric' />
                         </Input>
-                        {touched.identificationNumber && errors.identificationNumber && (
+                        {touched.numeroIdentificacion && errors.numeroIdentificacion && (
                             <FormControlError>
                                 <FormControlErrorIcon as={AlertCircleIcon} />
                                 <FormControlErrorText>
-                                    {errors.identificationNumber}
+                                    {errors.numeroIdentificacion}
                                 </FormControlErrorText>
                             </FormControlError>
                         )}
@@ -205,24 +205,24 @@ const CreateUser = ({ navigation }: { navigation: any }) => {
                         minWidth="$80"
                         maxHeight="$96"
                         isDisabled={false}
-                        isInvalid={touched.phone && !!errors.phone}
+                        isInvalid={touched.telefono && !!errors.telefono}
                         isReadOnly={false}
                         isRequired={true}
                     >
                         <Input variant='underlined'>
                             <InputField type="text"
-                                value={values.phone}
-                                onChangeText={handleChange('phone')}
-                                onBlur={handleBlur('phone')}
+                                value={values.telefono}
+                                onChangeText={handleChange('telefono')}
+                                onBlur={handleBlur('telefono')}
                                 defaultValue=""
                                 placeholder="Teléfono o celular"
                                 keyboardType='numeric' />
                         </Input>
-                        {touched.phone && errors.phone && (
+                        {touched.telefono && errors.telefono && (
                             <FormControlError>
                                 <FormControlErrorIcon as={AlertCircleIcon} />
                                 <FormControlErrorText>
-                                    {errors.phone}
+                                    {errors.telefono}
                                 </FormControlErrorText>
                             </FormControlError>
                         )}
@@ -266,9 +266,9 @@ const CreateUser = ({ navigation }: { navigation: any }) => {
                     >
                         <Input variant='underlined'>
                             <InputField type="text"
-                                value={values.address}
-                                onChangeText={handleChange('address')}
-                                onBlur={handleBlur('address')}
+                                value={values.direccion}
+                                onChangeText={handleChange('direccion')}
+                                onBlur={handleBlur('direccion')}
                                 defaultValue="" placeholder="Dirección" />
                         </Input>
                         <FormControlError>
@@ -290,15 +290,15 @@ const CreateUser = ({ navigation }: { navigation: any }) => {
                     >
                         <Input variant='underlined'>
                             <InputField type="text"
-                                value={values.job}
-                                onChangeText={handleChange('job')}
-                                onBlur={handleBlur('job')}
+                                value={values.ocupacion}
+                                onChangeText={handleChange('ocupacion')}
+                                onBlur={handleBlur('ocupacion')}
                                 defaultValue="" placeholder="Trabajo actual" />
                         </Input>
                         <FormControlError>
                             <FormControlErrorIcon as={AlertCircleIcon} />
                             <FormControlErrorText>
-                                {errors.job}
+                                {errors.ocupacion}
                             </FormControlErrorText>
                         </FormControlError>
                     </FormControl>
@@ -308,7 +308,7 @@ const CreateUser = ({ navigation }: { navigation: any }) => {
                         minWidth="$80"
                         maxHeight="$96"
                         isDisabled={false}
-                        isInvalid={touched.birthdate && !!errors.birthdate}
+                        isInvalid={touched.fechaNacimiento && !!errors.fechaNacimiento}
                         isReadOnly={false}
                         isRequired={false}
                     >
@@ -334,19 +334,19 @@ const CreateUser = ({ navigation }: { navigation: any }) => {
                         </Input>
                         {show && (<DateTimePicker
                             testID="dateTimePicker"
-                            value={values.birthdate}
+                            value={values.fechaNacimiento}
                             mode='date'
                             is24Hour={true}
                             onChange={(event, selectedDate) => {
-                                const currentDate = selectedDate || values.birthdate
+                                const currentDate = selectedDate || values.fechaNacimiento
                                 const localDate = new Date(
                                     currentDate.getFullYear(),
                                     currentDate.getMonth(),
                                     currentDate.getDate(),
                                 )
                                 setShow(false)
-                                setFieldValue('birthdate', localDate)
-                                setFieldTouched('birthdate', true)
+                                setFieldValue('fechaNacimiento', localDate)
+                                setFieldTouched('fechaNacimiento', true)
                             }}
                             maximumDate={new Date()}
                             minimumDate={new Date(1920, 1, 1)}
@@ -356,10 +356,10 @@ const CreateUser = ({ navigation }: { navigation: any }) => {
                         )}
                     </FormControl>
 
-                    <Select isInvalid={touched.role && !!errors.role} isRequired={true}
-                        onValueChange={(value) => setFieldValue('role', value)}
-                        // onClose={() => setFieldTouched('role', true)}
-                        selectedValue={values.role}
+                    <Select isInvalid={touched.rol && !!errors.rol} isRequired={true}
+                        onValueChange={(value) => setFieldValue('rol', value)}
+                        // onClose={() => setFieldTouched('rol', true)}
+                        selectedValue={values.rol}
                     >
                         <SelectTrigger variant="underlined" size="md" >
                             <SelectInput placeholder="Seleccione el rol" />
@@ -378,20 +378,20 @@ const CreateUser = ({ navigation }: { navigation: any }) => {
                                 <SelectItem label="Visitante" value="visitante" />
                             </SelectContent>
                         </SelectPortal>
-                        {touched.role && errors.role && (
+                        {touched.rol && errors.rol && (
                             <Box flexDirection="row" gap="$1">
                                 <Icon color="$red700" as={AlertCircleIcon} />
                                 <Text color="$red700">
-                                    {errors.role}
+                                    {errors.rol}
                                 </Text>
                             </Box>
                         )}
                     </Select>
 
-                    <Select isInvalid={touched.gender && !!errors.gender} isRequired={true}
-                        onValueChange={(value) => setFieldValue('gender', value)}
-                        // onClose={() => setFieldTouched('gender', true)}
-                        selectedValue={values.gender}
+                    <Select isInvalid={touched.genero && !!errors.genero} isRequired={true}
+                        onValueChange={(value) => setFieldValue('genero', value)}
+                        // onClose={() => setFieldTouched('genero', true)}
+                        selectedValue={values.genero}
                     >
                         <SelectTrigger variant="underlined" size="md" >
                             <SelectInput placeholder="Seleccione su género" />
@@ -409,20 +409,20 @@ const CreateUser = ({ navigation }: { navigation: any }) => {
                                 <SelectItem label="Feminino" value="femenino" />
                             </SelectContent>
                         </SelectPortal>
-                        {touched.gender && errors.gender && (
+                        {touched.genero && errors.genero && (
                             <Box flexDirection="row" gap="$1">
                                 <Icon color="$red700" as={AlertCircleIcon} />
                                 <Text color="$red700">
-                                    {errors.gender}
+                                    {errors.genero}
                                 </Text>
                             </Box>
                         )}
                     </Select>
 
-                    <Select isInvalid={touched.civilStatus && !!errors.civilStatus} isRequired={true}
-                        onValueChange={(value) => setFieldValue('civilStatus', value)}
-                        onClose={() => setFieldTouched('civilStatus', true)}
-                        selectedValue={values.civilStatus}
+                    <Select isInvalid={touched.estadoCivil && !!errors.estadoCivil} isRequired={true}
+                        onValueChange={(value) => setFieldValue('estadoCivil', value)}
+                        onClose={() => setFieldTouched('estadoCivil', true)}
+                        selectedValue={values.estadoCivil}
                     >
                         <SelectTrigger variant="underlined" size="md" >
                             <SelectInput placeholder="Seleccione su estado civil" />
@@ -442,11 +442,11 @@ const CreateUser = ({ navigation }: { navigation: any }) => {
                                 <SelectItem label="Divorsiado(a)" value="divorsiado" />
                             </SelectContent>
                         </SelectPortal>
-                        {touched.civilStatus && errors.civilStatus && (
+                        {touched.estadoCivil && errors.estadoCivil && (
                             <Box flexDirection="row" gap="$1">
                                 <Icon color="$red700" as={AlertCircleIcon} />
                                 <Text color="$red700">
-                                    {errors.civilStatus}
+                                    {errors.estadoCivil}
                                 </Text>
                             </Box>
                         )}
