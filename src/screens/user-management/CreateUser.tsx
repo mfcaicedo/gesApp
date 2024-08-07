@@ -24,6 +24,7 @@ import {
     SelectItem,
     CalendarDaysIcon,
     KeyboardAvoidingView,
+    useToast,
 } from "@gluestack-ui/themed";
 import { Platform, ScrollView } from "react-native";
 import { Screens } from "../../enums/navigation/screens.enum";
@@ -34,10 +35,15 @@ import userService from "../../services/user-management/userService";
 import { Formik, useFormik } from 'formik';
 import * as Yup from 'yup';
 import { UserRequest } from "../../models/user-management/userModel";
+import ReusableToast from "../../utils/components/ReusableToast";
+import { DURATION_TOAST_SUCCESS } from "../../utils/constants/constants";
+import { ToastProps } from "../../models/toast/toastPropsModel";
 
 const CreateUser = ({ navigation }: { navigation: any }) => {
 
+    const toast = useToast();
     const [show, setShow] = useState(false);
+    let toastProps: ToastProps = {} as ToastProps;
 
     const validationSchema = Yup.object().shape({
         nombre: Yup.string().required('El nombre es obligatorio'),
@@ -72,17 +78,65 @@ const CreateUser = ({ navigation }: { navigation: any }) => {
 
         },
         validationSchema: validationSchema,
-        onSubmit: values => {
-            // console.log("los valores", values);
+        onSubmit: async values => {
+
             const userRequest: UserRequest = {
                 ...values
             }
-            createUser(values);
+            await createUser(values);
         }
     });
 
     const createUser = async (values: UserRequest) => {
-        await userService.saveUser(values);
+        
+        await userService.saveUser(values).then((response) => {
+
+            toastProps = {
+                action: "success",
+                variant: "accent",
+                placement: "top",
+                title: "Usuario creado! ",
+                description: "El usuario se ha creado correctamente",
+            }
+            showToast(toastProps);
+            navigation.navigate(Screens.Home);
+
+        }).catch((error) => {
+
+            toastProps = {
+                action: "error",
+                variant: "accent",
+                placement: "top",
+                title: "Error! ",
+                description: "Ha ocurrido un error al crear el usuario. Por favor intente nuevamente",
+            }
+            showToast(toastProps);
+
+            console.log("Error al crear el usuario", error);
+            
+        });
+
+    }
+
+    const showToast = (toastProps: ToastProps) => {
+        
+        const newId = Math.random()
+        toast.show({
+            id: newId,
+            placement: toastProps.placement,
+            duration: DURATION_TOAST_SUCCESS,
+            render: ({ id }) => {
+                return (
+                    <ReusableToast
+                        id={id}
+                        action={toastProps.action}
+                        variant={toastProps.variant}
+                        title={toastProps.title}
+                        description={toastProps.description}
+                    />
+                )
+            },
+        })
 
     }
 
