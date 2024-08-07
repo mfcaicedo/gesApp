@@ -18,3 +18,11 @@ export interface UserRequest {
     estadoCivil: string;
     ocupacion: string;
 }
+
+export interface UserList {
+    uid: string;
+    nombre: string;
+    apellido: string;
+    telefono: number | string;
+    email: string;
+}

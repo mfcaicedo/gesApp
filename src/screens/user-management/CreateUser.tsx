@@ -83,13 +83,13 @@ const CreateUser = ({ navigation }: { navigation: any }) => {
             const userRequest: UserRequest = {
                 ...values
             }
-            await createUser(values);
+            await createUser(userRequest);
         }
     });
 
-    const createUser = async (values: UserRequest) => {
+    const createUser = async (userRequest: UserRequest) => {
         
-        await userService.saveUser(values).then((response) => {
+        await userService.saveUser(userRequest).then((response) => {
 
             toastProps = {
                 action: "success",
@@ -99,7 +99,7 @@ const CreateUser = ({ navigation }: { navigation: any }) => {
                 description: "El usuario se ha creado correctamente",
             }
             showToast(toastProps);
-            navigation.navigate(Screens.Home);
+            navigation.navigate(Screens.Users);
 
         }).catch((error) => {
 

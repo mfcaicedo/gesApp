@@ -59,7 +59,7 @@ const Login = ({ navigation }: { navigation: any }) => {
                         id={id}
                         action="success"
                         variant="accent"
-                        title="Bienvenido!"
+                        title="Bienvenido! "
                         description="Inicio de sesión exitoso"
                     />
                 )
