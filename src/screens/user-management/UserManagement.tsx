@@ -7,6 +7,7 @@ import { ScrollView } from "react-native";
 import { Screens } from "../../enums/navigation/screens.enum";
 import { UserList } from "../../models/user-management/userModel";
 import userService from "../../services/user-management/userService";
+const userIcono = require("../../../assets/images/user-icono.png");
 
 const UserManagement = ({ navigation }: { navigation: any }) => {
 
@@ -78,10 +79,8 @@ const CardUser = ({ user, onDelete, onEdit, onView }: { user: UserList, onDelete
                     <Avatar size="lg">
                         <AvatarFallbackText>{user.nombre}</AvatarFallbackText>
                         <AvatarImage
-                            source={{
-                                uri: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-                            }}
-                            alt="Jane Doe"
+                            source={userIcono}
+                            alt="Foto de perfil"
                         />
                         {/* <AvatarBadge /> */}
                     </Avatar>
@@ -95,7 +94,7 @@ const CardUser = ({ user, onDelete, onEdit, onView }: { user: UserList, onDelete
                         </HStack>
                         <HStack alignItems="center" gap='$1'>
                             <Icon as={MailIcon} size='xs' />
-                            <Text >{user.email ?? 'No tiene'}</Text>
+                            <Text >{user.email ?? 'Sin email'}</Text>
                         </HStack>
                     </Box>
 

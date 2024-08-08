@@ -1,6 +1,7 @@
-import { addDoc, collection, limit, onSnapshot, orderBy, query, QuerySnapshot, DocumentData, QueryDocumentSnapshot, getDocs, doc, setDoc } from "firebase/firestore";
+import { addDoc, collection, limit, onSnapshot, orderBy, query, QuerySnapshot, DocumentData, QueryDocumentSnapshot, getDocs, doc, setDoc, where } from "firebase/firestore";
 import { UserList, UserRequest } from "../../models/user-management/userModel";
 import { FIREBASE_DB } from "../../utils/constants/firebase";
+import { UserState } from "../../enums/user-management/userState.enum";
 
 
 const saveUser = async (user: UserRequest) => {
@@ -17,6 +18,7 @@ const getAllUsers = (callback: (users: UserList[]) => void) => {
     
     const usersQuery = query(
         collection(FIREBASE_DB, 'persona'),
+        where('estado', '==', UserState.ENABLED),
         orderBy('nombre', 'asc'),
         limit(10)
     );

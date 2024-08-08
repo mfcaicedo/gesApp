@@ -17,6 +17,7 @@ export interface UserRequest {
     discapacidad: string;
     estadoCivil: string;
     ocupacion: string;
+    estado: string;
 }
 
 export interface UserList {

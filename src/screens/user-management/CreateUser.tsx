@@ -38,6 +38,7 @@ import { UserRequest } from "../../models/user-management/userModel";
 import ReusableToast from "../../utils/components/ReusableToast";
 import { DURATION_TOAST_SUCCESS } from "../../utils/constants/constants";
 import { ToastProps } from "../../models/toast/toastPropsModel";
+import { UserState } from "../../enums/user-management/userState.enum";
 
 const CreateUser = ({ navigation }: { navigation: any }) => {
 
@@ -75,6 +76,7 @@ const CreateUser = ({ navigation }: { navigation: any }) => {
             discapacidad: '',
             estadoCivil: '',
             ocupacion: '',
+            estado: UserState.ENABLED,
 
         },
         validationSchema: validationSchema,

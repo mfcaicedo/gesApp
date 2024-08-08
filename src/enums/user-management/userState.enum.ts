@@ -1,0 +1,5 @@
+export enum UserState {
+    ENABLED = 'HABILITADO',
+    DISABLED = 'DESHABILITADO',
+    BLOCKED = 'BLOQUEADO'
+}
