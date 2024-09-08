@@ -5,17 +5,17 @@ import { UserState } from "../../enums/user-management/userState.enum";
 
 
 const saveUser = async (user: UserRequest) => {
-    
+
     const newUser = doc(collection(FIREBASE_DB, 'persona'));
     //agrego el id 
     user.uid = newUser.id;
 
     await setDoc(newUser, user);
-    
+
 }
 
 const getAllUsers = (callback: (users: UserList[]) => void) => {
-    
+
     const usersQuery = query(
         collection(FIREBASE_DB, 'persona'),
         where('estado', '==', UserState.ENABLED),
@@ -32,6 +32,17 @@ const getAllUsers = (callback: (users: UserList[]) => void) => {
 
     // Devuelve la función para cancelar la suscripción a los cambios
     return unsubscribe;
+}
+
+const disabledUser = async (uidUser: string) => {
+
+    await setDoc(doc(FIREBASE_DB, 'persona', uidUser),
+        {
+            estado: UserState.DISABLED
+        }, {
+            merge: true
+    });
+
 }
 
 export default {
