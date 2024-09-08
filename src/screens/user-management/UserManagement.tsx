@@ -1,18 +1,30 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
     Box, Heading, Text, HStack, Card, MailIcon, PhoneIcon, Icon, Avatar, AvatarFallbackText, AvatarImage,
-    AvatarBadge, AddIcon, Button, ButtonIcon, FormControl, Input, InputField, SearchIcon, TrashIcon
+    AvatarBadge, AddIcon, Button, ButtonIcon, FormControl, Input, InputField, SearchIcon, TrashIcon, useToast,
+    AlertDialog, AlertDialogBackdrop, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader,
+    ButtonText,
 } from "@gluestack-ui/themed";
 import { ScrollView, TouchableOpacity } from "react-native";
 import { Screens } from "../../enums/navigation/screens.enum";
 import { UserList } from "../../models/user-management/userModel";
 import userService from "../../services/user-management/userService";
 import { GestureHandlerRootView, Swipeable } from "react-native-gesture-handler";
+import { ToastProps } from "../../models/toast/toastPropsModel";
+import ReusableToast from "../../utils/components/ReusableToast";
+import { DURATION_TOAST_SUCCESS } from "../../utils/constants/constants";
 const userIcono = require("../../../assets/images/user-icono.png");
 
 const UserManagement = ({ navigation }: { navigation: any }) => {
 
+    const toast = useToast();
+    let toastProps: ToastProps = {} as ToastProps;
+
+    const [showAlertDialog, setShowAlertDialog] = useState(false);
+
     const [users, setUsers] = useState<UserList[]>([]);
+
+    const [userUidDelete, setUserUidDelete] = useState('')
 
     const getAllUsers = async () => {
 
@@ -26,21 +38,64 @@ const UserManagement = ({ navigation }: { navigation: any }) => {
 
     }
 
-    const handleDelete = async (user: UserList) => {
+    const handleDelete = async (userUid: string) => {
 
-        console.log('Eliminando usuario: ', user);
+        setShowAlertDialog(true);
+        setUserUidDelete(userUid)
 
-        // await userService.deleteUser(user.uid);
+    }
+
+    const handleCloseDelete = async (action: 'aceptar' | 'cancelar') => {
+
+        if (action === 'aceptar') {
+            await userService.disabledUser(userUidDelete).then(() => {
+
+                toastProps = {
+                    action: "success",
+                    variant: "accent",
+                    placement: "top",
+                    title: "Usuario deshabilitado! ",
+                    description: "El usuario se ha deshabilitado correctamente",
+                }
+                showToast(toastProps);
+
+            })
+                .catch(() => {
+                    console.log("catch");
+                })
+        }
 
     }
 
     const handleViewUser = async (user: UserList) => {
-
+        //TODO: lógica para ver detalle de un usuario
         console.log('Visualizando usuario: ', user);
-
         // navigation.navigate(Screens.ViewUser, { user });
+    }
+
+    const showToast = (toastProps: ToastProps) => {
+
+        const newId = Math.random()
+        toast.show({
+            id: newId,
+            placement: toastProps.placement,
+            duration: DURATION_TOAST_SUCCESS,
+            render: ({ id }) => {
+                return (
+                    <ReusableToast
+                        id={id}
+                        action={toastProps.action}
+                        variant={toastProps.variant}
+                        title={toastProps.title}
+                        description={toastProps.description}
+                    />
+                )
+            },
+        })
 
     }
+
+
 
     useEffect(() => {
 
@@ -76,20 +131,87 @@ const UserManagement = ({ navigation }: { navigation: any }) => {
                     ))
                 }
             </ScrollView>
+            <ReusableDialog showAlertDialog={showAlertDialog} setShowAlertDialog={setShowAlertDialog}
+                handleClose={handleCloseDelete} />
         </Box>
     )
 
 }
 
-const CardUser = ({ index, user, onDelete, onEdit, onView }: { index: number, user: UserList, onDelete: any, onEdit: any, onView: any }) => {
+const ReusableDialog = ({ showAlertDialog, setShowAlertDialog, handleClose }:
+    { showAlertDialog: any, setShowAlertDialog: any, handleClose: (action: 'aceptar' | 'cancelar') => void }) => {
+    // const [showAlertDialog, setShowAlertDialog] = useState(false);
+    // const handleClose = () => setShowAlertDialog(false);
+
+    const onConfirm = () => {
+        handleClose('aceptar');
+        setShowAlertDialog(false);
+    };
+
+    const onCancel = () => {
+        handleClose('cancelar');
+        setShowAlertDialog(false);
+    };
+
+
+    return (
+        <>
+            <AlertDialog
+                isOpen={showAlertDialog}
+                onClose={onCancel}
+                size="md"
+            >
+                <AlertDialogBackdrop />
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <Heading className="text-typography-950 font-semibold" size="md">
+                            ¿Está seguro de deshabilitar el usuario?
+                        </Heading>
+                    </AlertDialogHeader>
+                    <AlertDialogBody mt='$1' mb='$1'>
+                        <Text size="sm">
+                            Por favor confirma si deseas deshabilitar el usuario
+                        </Text>
+                    </AlertDialogBody>
+                    <AlertDialogFooter gap='$1'>
+                        <Button
+                            variant="outline"
+                            action="secondary"
+                            onPress={onCancel}
+                            size="sm"
+                        >
+                            <ButtonText>Cancelar</ButtonText>
+                        </Button>
+                        <Button size="sm" onPress={onConfirm}>
+                            <ButtonText>Deshabilitar</ButtonText>
+                        </Button>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
+        </>
+    );
+}
+
+
+const CardUser = ({ index, user, onDelete, onEdit, onView }: {
+    index: number, user: UserList, onDelete: any,
+    onEdit: any, onView: any
+}) => {
+
+    const swipeableRef = useRef<Swipeable | null>(null);
+
     return (
         <GestureHandlerRootView>
-            <Swipeable key={index} renderRightActions={() =>
+            <Swipeable ref={swipeableRef} key={index} renderRightActions={() =>
                 <Box w='$16' bg='$red500' justifyContent='center' alignItems='center' >
                     <Icon as={TrashIcon} size="xl" color='$white' />
                 </Box>
             }
-                onSwipeableOpen={() => onDelete(user)}>
+                onSwipeableOpen={() => {
+                    onDelete(user.uid)
+                    swipeableRef.current?.close()
+                }
+                }>
                 <TouchableOpacity key={index} onPress={() => onView(user)}>
                     <Card size="lg" justifyContent='flex-start' flexDirection='row' mt='$1'
                         w='$full' variant="elevated" >

@@ -34,9 +34,9 @@ const getAllUsers = (callback: (users: UserList[]) => void) => {
     return unsubscribe;
 }
 
-const disabledUser = async (uidUser: string) => {
+const disabledUser = async (userUid: string) => {
 
-    await setDoc(doc(FIREBASE_DB, 'persona', uidUser),
+    await setDoc(doc(FIREBASE_DB, 'persona', userUid),
         {
             estado: UserState.DISABLED
         }, {
@@ -48,4 +48,5 @@ const disabledUser = async (uidUser: string) => {
 export default {
     saveUser,
     getAllUsers,
+    disabledUser,
 }
