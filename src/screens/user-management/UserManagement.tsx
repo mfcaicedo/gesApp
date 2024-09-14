@@ -26,6 +26,8 @@ const UserManagement = ({ navigation }: { navigation: any }) => {
 
     const [userUidDelete, setUserUidDelete] = useState('')
 
+    const [search, setSearch] = useState<string>('');
+
     const getAllUsers = async () => {
 
         const unsubscribe = userService.getAllUsers((users: UserList[]) => {
@@ -95,8 +97,6 @@ const UserManagement = ({ navigation }: { navigation: any }) => {
 
     }
 
-
-
     useEffect(() => {
 
         getAllUsers();
@@ -109,7 +109,7 @@ const UserManagement = ({ navigation }: { navigation: any }) => {
                 A continuación, podrás gestionar los usuarios de tu comunidad!
             </Text>
             <Box my='$2'>
-                <SearchComponent navigation={navigation} />
+                <SearchComponent search={search} setSearch={setSearch} navigation={navigation} />
             </Box>
             <HStack justifyContent="space-between" my='$2'>
                 <Heading mt='$2'>
@@ -152,7 +152,6 @@ const ReusableDialog = ({ showAlertDialog, setShowAlertDialog, handleClose }:
         handleClose('cancelar');
         setShowAlertDialog(false);
     };
-
 
     return (
         <>
@@ -248,9 +247,13 @@ const CardUser = ({ index, user, onDelete, onEdit, onView }: {
     )
 }
 
-const SearchComponent = ({ navigation }: { navigation: any }) => {
+const SearchComponent = ({ search, setSearch, navigation }: { search: any, setSearch: any, navigation: any }) => {
 
-    const [search, setSearch] = useState<string>('');
+    const handleSearchSubmit = () => {
+
+        console.log("buscar ", search);
+
+    };
 
     return (
         <Box justifyContent='space-between'>
@@ -273,6 +276,7 @@ const SearchComponent = ({ navigation }: { navigation: any }) => {
                             placeholder="Buscar usuario"
                             autoCapitalize='sentences'
                             keyboardType='web-search'
+                            onSubmitEditing={handleSearchSubmit}
                         />
                     </Input>
                 </FormControl>
